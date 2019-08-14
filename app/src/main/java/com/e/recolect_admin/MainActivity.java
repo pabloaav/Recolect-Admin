@@ -1,21 +1,39 @@
 package com.e.recolect_admin;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.MenuItem;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
 
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import android.view.MenuItem;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    //region Atributos
+    private DatabaseReference firebaseDatabase;
+    private FirebaseAuth firebaseAuth;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +56,55 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        //Llamo inciializar firebase
+        inicializarFirebase();
+
+    }
+
+    //Inicializacion de objetos de Firebase
+    private void inicializarFirebase() {
+        FirebaseApp.initializeApp(this);
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+
+        //inicializamos el objeto firebaseAuth
+        firebaseAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String email = "pabloaav@yahoo.com.ar";
+        String pass = "pablo35";
+        loguear(email,pass);
+    }
+
+    private void loguear(String email, String pass) {
+
+        if (firebaseAuth != null) {
+            firebaseAuth.signInWithEmailAndPassword(email, pass)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                
+                            } else {
+                                Toast.makeText(MainActivity.this, "No se autentico", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+       if (firebaseAuth.getCurrentUser() == null){
+           Toast.makeText(this, "Usuario no existe", Toast.LENGTH_SHORT).show();
+       }else {
+           Toast.makeText(this, "Bienvenido: " + firebaseAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
+       }
+
     }
 
     @Override
