@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#1e453e</color>
+
+
+    <color name="colorFondoMain">#0d1e18</color>
+    <color name="colorFondoAppBar">#0d1e18</color>
+    <color name="colorFondoDark">#3a3d33</color>
+    <color name="colorFondoVerde">#3e3053</color>
+    <color name="colorFondoNegro">#000000</color>
+    <color name="colorFondoBlanco">#FFFFFF</color>
+    <color name="colorFondoSplash">#c5c5c5</color>
+
+    <color name="color1">#2c4c3b</color>
+    <color name="color2">#306844</color>
+    <color name="color3">#1e453e</color>
+
 </resources>
