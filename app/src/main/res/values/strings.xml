@@ -7,13 +7,14 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Opciones</string>
 
+
     <string name="menu_gestionar_inc">Gestionar Incidencia</string>
     <string name="menu_gestionar_ecopuntos">Gestionar Eco Puntos</string>
     <string name="menu_gestionar_admin">Gestionar Administradores</string>
-    <string name="menu_reportes">Reportes</string>
 
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
+    <string name="titulo_reportes">Reportes</string>
+    <string name="menu_reporte_usu">Reportes de Usuarios </string>
+    <string name="menu_reporte_inc">Reportes de Incidencias</string>
 
     <string name="tv_bienvenida">Presione Menú o Deslice Para Empezar</string>
 
