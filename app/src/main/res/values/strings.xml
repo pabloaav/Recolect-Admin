@@ -1,4 +1,14 @@
 <resources>
+
+    <!--Activity Inicio de Sesión-->
+    <string name="txt_correoLogin">INGRESE SU CORREO ELECTRONICO:</string>
+    <string name="txt_contrasena">INGRESE SU CONTRASEÑA:</string>
+    <string name="tv_olvidoPass">HAS OLVIDADO TU CONTRASEÑA?</string>
+    <string name="bt_loguear">INICIAR SESION</string>
+    <string name="bt_registrarse">CREAR UNA CUENTA</string>
+    <string name="bt_log_google">INICIAR CON GOOGLE</string>
+
+
     <string name="app_name">Recolect-Admin</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
