@@ -12,10 +12,11 @@
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_gestion_ecop"
             android:title="@string/menu_gestionar_ecopuntos" />
-        <item
+
+        <!--<item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_gestion_admins"
-            android:title="@string/menu_gestionar_admin"/>
+            android:title="@string/menu_gestionar_admin"/>-->
 
        <!-- <item
             android:id="@+id/nav_tools"
@@ -30,7 +31,7 @@
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_reportes"
+                android:icon="@drawable/ic_reportes2"
                 android:title="@string/menu_reporte_inc"/>
             <item
                 android:id="@+id/nav_send"
