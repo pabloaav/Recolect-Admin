@@ -7,7 +7,6 @@
     tools:context=".LoginAdmin"
     android:background="@color/color2">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,17 +14,13 @@
         android:id="@+id/linearMainActivity"
         android:layout_marginTop="50dp">
 
-
         <com.google.android.material.textfield.TextInputLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="80sp"
             android:textColorHint="@color/colorFondoBlanco">
 
-
-
-        <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_correoLogin"
                 android:layout_width="60mm"
                 android:layout_height="55sp"
@@ -40,11 +35,11 @@
                 android:inputType="textPersonName"
                 android:textColor="@color/colorAccent"
                 android:textColorHighlight="@color/colorAccent"
-                android:textColorHint="@color/colorBotonVerde"
-                android:textSize="18sp" />
+                android:textColorHint="@color/colorFondoBlanco"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_contrasena"
@@ -54,23 +49,24 @@
             app:passwordToggleEnabled="true"
             android:textColorHint="@color/colorFondoBlanco">
 
-        <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_contrasena"
                 android:layout_width="60mm"
                 android:layout_height="55sp"
                 android:layout_gravity="center"
                 android:layout_marginTop="5sp"
                 android:drawablePadding="10dp"
+                android:drawableStart="@drawable/ic_admin_clave"
+                android:drawableLeft="@drawable/ic_admin_clave"
                 android:ems="10"
                 android:hint="@string/txt_contrasena"
                 android:fontFamily="@font/roboto_bold_italic"
-                android:textColorHint="@color/colorBotonVerde"
+                android:textColorHint="@color/colorFondoBlanco"
                 android:inputType="textPassword"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
         <Button
             android:id="@+id/bt_loguear"
@@ -122,8 +118,6 @@
             android:textSize="18sp"
             android:textStyle="normal" />
 
-
     </LinearLayout>
-
 
 </LinearLayout>
