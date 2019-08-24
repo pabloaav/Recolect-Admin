@@ -17,6 +17,11 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.NavigationView"> <item name="android:textColorSecondary">#FFFFFF</item> </style>
+   <!-- <style name="AppTheme.NavigationView"> <item name="android:textColorSecondary">#FFFFFF</item> </style>-->
+
+
+    <style name="NavigationView">
+        <item name="android:textColorSecondary">@color/colorFondoBlanco</item>
+    </style>
 
 </resources>

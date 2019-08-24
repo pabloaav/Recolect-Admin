@@ -18,10 +18,15 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer"
         android:backgroundTint="@color/color2"
-        app:itemTextColor="@color/colorFondoBlanco"/>
+        android:fitsSystemWindows="true"
+        android:scrollbarThumbHorizontal="@color/colorFondoBlanco"
+        android:scrollbarThumbVertical="@color/colorFondoBlanco"
+        app:headerLayout="@layout/nav_header_main"
+        app:insetForeground="#000000"
+        app:itemTextColor="@color/colorFondoBlanco"
+        app:itemIconTint="@color/colorFondoBlanco"
+        app:menu="@menu/activity_main_drawer"
+        android:theme="@style/NavigationView"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

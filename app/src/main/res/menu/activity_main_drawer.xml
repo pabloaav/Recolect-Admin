@@ -12,27 +12,32 @@
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_gestion_ecop"
             android:title="@string/menu_gestionar_ecopuntos" />
-        <item
+
+        <!--<item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_gestion_admins"
-            android:title="@string/menu_gestionar_admin"/>
-        <item
+            android:title="@string/menu_gestionar_admin"/>-->
+
+       <!-- <item
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_reportes"
-            android:title="@string/menu_reportes" />
+            android:title="sacar esto" />-->
+
     </group>
 
-   <!-- <item android:title="Communicate">
+    <item android:title="@string/titulo_reportes"
+          android:id="@+id/titulo_reportes">
+
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/menu_share"/>
+                android:icon="@drawable/ic_reportes2"
+                android:title="@string/menu_reporte_inc"/>
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_send" />
+                android:icon="@drawable/ic_reportes"
+                android:title="@string/menu_reporte_usu" />
         </menu>
-    </item>-->
+    </item>
 
 </menu>

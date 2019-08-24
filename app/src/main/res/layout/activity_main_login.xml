@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity_main_login"
+    android:background="@color/color2">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/linearMainActivity"
+        android:layout_marginTop="50dp">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80sp"
+            android:textColorHint="@color/colorFondoBlanco">
+
+
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_correoLogin"
+                android:layout_width="60mm"
+                android:layout_height="55sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="120dp"
+                android:drawableStart="@drawable/ic_mail_black_24dp"
+                android:drawableLeft="@drawable/ic_mail_black_24dp"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:fontFamily="@font/roboto_bold_italic"
+                android:hint="@string/txt_correoLogin"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorAccent"
+                android:textColorHighlight="@color/colorAccent"
+                android:textColorHint="@color/colorBotonVerde"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_contrasena"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            app:passwordToggleEnabled="true"
+            android:textColorHint="@color/colorFondoBlanco">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_contrasena"
+                android:layout_width="60mm"
+                android:layout_height="55sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5sp"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="@string/txt_contrasena"
+                android:fontFamily="@font/roboto_bold_italic"
+                android:textColorHint="@color/colorBotonVerde"
+                android:inputType="textPassword"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/bt_loguear"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="60mm"
+            android:layout_height="55sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15sp"
+            android:background="@drawable/stylo_boton_pressed"
+
+            android:drawableLeft="@drawable/ic_iniciar_sesion"
+            android:fontFamily="@font/roboto_bold_italic"
+            android:hint="@string/bt_loguear"
+            android:minWidth="88dip"
+            android:textColor="@color/colorFondoBlanco"
+            android:textColorHighlight="@color/colorAccent"
+            android:textColorHint="@color/colorFondoBlanco"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/bt_registrarse"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="60mm"
+            android:layout_height="55sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15sp"
+            android:background="@drawable/stylo_boton_pressed"
+            android:drawableLeft="@drawable/ic_crear_cuenta"
+            android:fontFamily="@font/roboto_bold_italic"
+            android:hint="@string/bt_registrarse"
+            android:textColor="@color/colorFondoBlanco"
+            android:textColorHighlight="@color/colorAccent"
+            android:textColorHint="@color/colorFondoBlanco"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/bt_loggoogle"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="60mm"
+            android:layout_height="55sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15sp"
+            android:background="@drawable/stylo_boton_pressed"
+            android:drawableLeft="@drawable/ic_log_google"
+            android:fontFamily="@font/roboto_bold_italic"
+            android:hint="@string/bt_log_google"
+            android:textColor="@color/colorFondoBlanco"
+            android:textColorHint="@color/colorFondoBlanco"
+            android:textSize="18sp"
+            android:textStyle="normal" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

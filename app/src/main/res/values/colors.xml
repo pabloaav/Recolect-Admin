@@ -3,8 +3,8 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#1e453e</color>
-
-
+    <color name="colorBotonBlanco">#FFFFFF</color>
+    <color name="colorBotonVerde">#388E3C</color>
     <color name="colorFondoMain">#0d1e18</color>
     <color name="colorFondoAppBar">#0d1e18</color>
     <color name="colorFondoDark">#3a3d33</color>
