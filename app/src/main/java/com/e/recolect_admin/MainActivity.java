@@ -1,21 +1,29 @@
 package com.e.recolect_admin;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.MenuItem;
 import android.view.Menu;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+
+import com.e.recolect_admin.fragmentos.GestionarEcopuntoFragment;
+import com.e.recolect_admin.fragmentos.GestionarIncidenciaFragment;
+import com.e.recolect_admin.fragmentos.ReporteIncidenciaFragment;
+import com.e.recolect_admin.fragmentos.ReporteUsuarioFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ReporteUsuarioFragment.OnFragmentInteractionListener, GestionarIncidenciaFragment.OnFragmentInteractionListener, GestionarEcopuntoFragment.OnFragmentInteractionListener, ReporteIncidenciaFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,28 +83,46 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Se toma el di del item que presiona el usuario
         int id = item.getItemId();
+        // Variable tipo Fragment para hacer visible el fragmento que elige el usuario
+        Fragment miFragment = null;
+        boolean fragmentSeleccionado = false;
 
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.gestionar_incidencias) {
+            //Se reemplaza contenido principal por fragmento gestionar incidencias
+            miFragment = new GestionarIncidenciaFragment();
+            fragmentSeleccionado = true;
+        } else if (id == R.id.gestionar_ecopuntos) {
+            //Se reemplaza contenido principal por fragmento gestionar ecopuntos
+            miFragment = new GestionarEcopuntoFragment();
+            fragmentSeleccionado = true;
+        } else if (id == R.id.reporte_incidencias) {
+            //Se reemplaza contenido principal por fragmento reporte incidencias
+            miFragment = new ReporteIncidenciaFragment();
+            fragmentSeleccionado = true;
+        } else if (id == R.id.reporte_usuarios) {
+            //Se reemplaza contenido principal por fragmento reporte incidencias
+            miFragment = new ReporteUsuarioFragment();
+            fragmentSeleccionado = true;
+        }
 
-            /*} else if (id == R.id.nav_slideshow) {*/
-
-            /*} else if (id == R.id.nav_tools) {*/
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        //Se hace un cambio (replace) del contenido principal por un fragmento seleccionado
+        if (fragmentSeleccionado) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.contenido_principal, miFragment).commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
