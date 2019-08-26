@@ -1,21 +1,26 @@
 package com.e.recolect_admin.fragmentos;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.e.recolect_admin.R;
 import com.e.recolect_admin.adaptadores.AdaptadorRecyclerIncidencias;
 import com.e.recolect_admin.modelo.IncidenciaPojo;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -50,8 +56,10 @@ public class GestionarIncidenciaFragment extends Fragment {
     //endregion
 
     //region ATRIBUTOS
-    private DatabaseReference mDataBase;
-    private FirebaseAuth mAuth;
+    DatabaseReference mDataBase;
+    FirebaseAuth mAuth;
+    ArrayList<IncidenciaPojo> listaIncidenciaPojos;
+    RecyclerView rvIncidencias;
     //endregion
 
     //region METODOS
@@ -62,6 +70,10 @@ public class GestionarIncidenciaFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        // Objetos de Firebase
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        mDataBase = firebaseDatabase.getReference();
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -69,61 +81,72 @@ public class GestionarIncidenciaFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_gestionar_incidencia, container, false);
-
-        // Objetos de Firebase
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        mDataBase = firebaseDatabase.getReference();
-        mAuth = FirebaseAuth.getInstance();
-
-        //Instanciamos el objeto Recycler view
-        RecyclerView recyclerViewIncidencias = vista.findViewById(R.id.rv_gestion_incidencias);
-
-        //Se necesita un objeto Linear Layaout Manager
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        //Se ordenan de mas recientes a menos recientes
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        //Seteamos el recycler con el LAyout Manager
-        recyclerViewIncidencias.setLayoutManager(linearLayoutManager);
-
-        cargarArrayRecycler(recyclerViewIncidencias);
-
+        //Tomar el recycler view del layout por medio de su id
+        rvIncidencias = vista.findViewById(R.id.rv_gestion_incidencias);
+        //Crear la lista de incidencias delcarada en Atributos
+        listaIncidenciaPojos = new ArrayList<>();
+        //Construir layout manager para el recycle
+        construirRecycler(vista);
+        //Llenar el recycler con informacion de firebase
+        llenarConIncidencias();
         //Retornamos la vista que ha sido inflada
         return vista;
     }
 
-    private void cargarArrayRecycler(final RecyclerView recyclerViewIncidencias) {
+    private void construirRecycler(View vista) {
+        //Se necesita un objeto Linear Layaout Manager
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        //Se ordenan de mas recientes a menos recientes
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+
+        //Seteamos el recycler con el Layout Manager
+        rvIncidencias.setLayoutManager(linearLayoutManager);
+
+    }
+
+    private void llenarConIncidencias() {
 
         DatabaseReference ref = mDataBase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("incidencias");
-
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if(!listaIncidenciaPojos.isEmpty()){
+                        listaIncidenciaPojos.clear();
+                    }
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        IncidenciaPojo value = snapshot.getValue(IncidenciaPojo.class);
+                        value.setKey(snapshot.getKey());
+                        value.setTipo(value.getTipo());
+                        value.setFecha(value.getFecha());
+                        value.setDescripcion(value.getDescripcion());
+                        value.setDireccion(value.getDireccion());
+                        value.setImagen(value.getImagen());
+                        Map<String, Object> ubicacion = value.getUbicacion();
+                        value.setCadenaUbicacion(value.getCadenaUbicacion());
+                        value.setEstado(value.getEstado());
+                        listaIncidenciaPojos.add(value);
+                    }
+                }
+                //Creamos el adaptador de Incidencias
+                AdaptadorRecyclerIncidencias adaptador = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());
 
-                ArrayList<IncidenciaPojo> array = new ArrayList<>();
+                //Le decimos al adaptador que escuche y haga algo cuando se hace click
+                adaptador.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            IncidenciaPojo incidenciaPojo = listaIncidenciaPojos.get(rvIncidencias.getChildAdapterPosition(view));
+                            mostrarDialogoCambio(incidenciaPojo);
+                        }
+                    }
+                });
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                    IncidenciaPojo incidenciaPojo = snapshot.getValue(IncidenciaPojo.class);
-                    incidenciaPojo.setTipo(incidenciaPojo.getTipo());
-                    incidenciaPojo.setFecha(incidenciaPojo.getFecha());
-                    incidenciaPojo.setDescripcion(incidenciaPojo.getDescripcion());
-                    incidenciaPojo.setDireccion(incidenciaPojo.getDireccion());
-                    incidenciaPojo.setImagen(incidenciaPojo.getImagen());
-                    Map<String, Object> ubicacion = incidenciaPojo.getUbicacion();
-                    incidenciaPojo.setCadenaUbicacion(incidenciaPojo.getCadenaUbicacion());
-                    incidenciaPojo.setEstado(incidenciaPojo.getEstado());
-                    array.add(incidenciaPojo);
-
-                }//Fin del for
-
-                //Colocamos la clase adaptadora del recycler que creamos para instanciar el view holder y manejar el objeto RecyclerView. El primer parametro que recibe el constructor debe ser un array de objetos de Incidencia que se obtienen de la bsae de datos
-                AdaptadorRecyclerIncidencias adaptador = new AdaptadorRecyclerIncidencias(array, R.layout.cv_admin_incidencia, getActivity());
-
-                //Seteamos al recycler el adaptador correspondiente
-                recyclerViewIncidencias.setAdapter(adaptador);
+                //Seteamos el adaptador al recycler
+                rvIncidencias.setAdapter(adaptador);
             }
 
             @Override
@@ -132,7 +155,86 @@ public class GestionarIncidenciaFragment extends Fragment {
             }
         });
 
-    }//Fin cargar recycler
+    }
+
+    private void mostrarDialogoCambio(final IncidenciaPojo incidencia) {
+        //Atributos locales
+        String tipo = incidencia.getTipo();
+        String ubicacion = incidencia.getCadenaUbicacion();
+        String fecha = incidencia.getFecha();
+        CharSequence estado = leerEstadoIncidencia(incidencia.getEstado());
+        String mensaje = "Estado: " + estado + "\n" + "Tipo: " + tipo +
+                "\n" + "Ubicacion: " + ubicacion + "\n" + "Fecha: " + fecha;
+
+        // 1. Instantiate an AlertDialog.Builder with its constructor
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        // 2. Chain together various setter methods to set the dialog characteristics
+        builder.setMessage(mensaje)
+                .setTitle("Cambiar el estado de la Incidencia");
+
+        // Add the buttons
+        builder.setPositiveButton("CAMBIAR", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+                cambiarEstado(incidencia);
+            }
+        });
+        builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+                Toast.makeText(getContext(), "La incidencia NO cambió de estado", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void cambiarEstado(IncidenciaPojo inc) {
+
+        String claveIncidencia = inc.getKey();
+        DatabaseReference ref = mDataBase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("incidencias").child(claveIncidencia).child("estado");
+        ref.setValue(hashMapCambairEstado())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getContext(), "Se cambio el estado correctamente", Toast.LENGTH_SHORT).show();
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error desde base de dats", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    private CharSequence leerEstadoIncidencia(Map<String, Boolean> p_estado) {
+        boolean enProceso = p_estado.get("En Proceso");
+        boolean terminado = p_estado.get("Terminado");
+        CharSequence resultado = "resultado";
+        if (enProceso && terminado) {
+            resultado = "Terminado";
+        } else {
+            resultado = "En Proceso";
+        }
+        return resultado;
+    }
+
+    private Map<String, Boolean> hashMapCambairEstado() {
+        boolean enProceso = true;
+        boolean terminado = true;
+
+        //Ahora el objeto hashMap para subir a la base de datos
+        Map<String, Boolean> nodoEstado = new HashMap<>();
+        //En el mismo orden de Firebase
+        nodoEstado.put("En Proceso", enProceso);
+        nodoEstado.put("Terminado", terminado);
+
+        return nodoEstado;
+    }
 
     //endregion
 

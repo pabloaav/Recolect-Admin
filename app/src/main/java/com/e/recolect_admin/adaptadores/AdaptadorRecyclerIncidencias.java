@@ -1,6 +1,7 @@
 package com.e.recolect_admin.adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -18,6 +22,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.e.recolect_admin.R;
 import com.e.recolect_admin.modelo.IncidenciaPojo;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -26,7 +31,7 @@ import java.util.Map;
  * <p>
  * Recibe una colecccion de objetos de tipo ViewHolder, que es la clase Inne declarada para manipular los objetos Incidencia
  */
-public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<AdaptadorRecyclerIncidencias.IncidenciasViewHolder> {
+public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<AdaptadorRecyclerIncidencias.IncidenciasViewHolder> implements View.OnClickListener {
 
     //region ATRIBUTOS de AdaptadorRecyclerIncidencias
 
@@ -38,6 +43,9 @@ public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<Adaptador
 
     //El Context, que es la Activity desde donde se llama a mostrar los datos
     Context mContext;
+
+    //Un escuchador para el evento click
+    private View.OnClickListener listener;
 
     //endregion
 
@@ -95,6 +103,19 @@ public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<Adaptador
 
     }//Fin de OnBind...
 
+    //Este metodo inicializa la vista del ViewHolder
+    @Override
+    public IncidenciasViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //Decimos que desde el Context (la Activity Menu) inflar la vista de los cardview
+        View vista = LayoutInflater.from(mContext).inflate(cardViewLayout, parent, false);
+
+        //Seteamos a la vista el evento onclick para saber cuando el administrador elige un cardview
+        vista.setOnClickListener(this);
+
+        //Le pasamos esta vista, es decir, el layout del cardview, a la Clase IncidenciasViewHolder, para que haga la asociacion de datos que le corresponde
+        return new IncidenciasViewHolder(vista);
+    }
+
     private CharSequence leerEstadoIncidencia(Map<String, Boolean> p_estado) {
         boolean enProceso = p_estado.get("En Proceso");
         boolean terminado = p_estado.get("Terminado");
@@ -121,21 +142,23 @@ public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<Adaptador
         return cadenaUbicacionCompleta.substring(0, coma);
     }
 
-    //Este metodo inicializa la vista del ViewHolder
-    @Override
-    public IncidenciasViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //Decimos que desde el Context (la Activity Menu) inflar la vista de los cardview
-        View vista = LayoutInflater.from(mContext).inflate(cardViewLayout, parent, false);
-        //Le pasamos esta vista, es decir, el layout del cardview, a la Clase IncidenciasViewHolder, para que haga la asociacion de datos que le corresponde
-        return new IncidenciasViewHolder(vista);
-    }
-
     @Override
     public int getItemCount() {
         if (listaIncidencias.size() > 0) {
             return listaIncidencias.size();
         } else {
             return 0;
+        }
+    }
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (listener != null) {
+            listener.onClick(v);
         }
     }
 
@@ -179,12 +202,13 @@ public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<Adaptador
         @Override
         public void onClick(View view) {
             //Vista correspondiente al click en el cardview de incidencia
-//            detalleIncidencia(view);
-
+            hacerAlgoEnClick(view);
         }
 
-        private void detalleIncidencia(View v) {
-
+        private void hacerAlgoEnClick(View v) {
+            if (listener != null) {
+                listener.onClick(v);
+            }
         }
     }
 }
