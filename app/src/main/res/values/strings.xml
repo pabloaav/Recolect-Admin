@@ -34,6 +34,12 @@
     <string name="titulo_reporte_incidencia">Fragmento Reportes de Incidencias</string>
     <string name="titulo_fragmento_incidencias">Administrar Incidencias</string>
     <string name="titulo_reporte_ecopuntos">Gestionar Ecopuntos Fragment</string>
-
+    <string-array name="opciones">
+        <item>Buscar incidencias por:</item>
+        <item>Tipo</item>
+        <item>Fecha</item>
+        <item>Estado "En Proceso"</item>
+        <item>Estado "Terminado"</item>
+    </string-array>
 
 </resources>

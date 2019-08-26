@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -64,6 +67,7 @@ public class GestionarIncidenciaFragment extends Fragment {
     RecyclerView rvIncidencias;
     ValueEventListener oyenteValorIncidencia;
     AdaptadorRecyclerIncidencias adapter;
+    Spinner opciones;
     //endregion
 
     //region METODOS
@@ -109,6 +113,7 @@ public class GestionarIncidenciaFragment extends Fragment {
 
         //Adherimos el oyente a la referencia de la base de datos para las incidencias
         dbRefIncidencias.addListenerForSingleValueEvent(oyenteValorIncidencia);
+
     }//cierra onCreate()
 
     @Override
@@ -124,8 +129,30 @@ public class GestionarIncidenciaFragment extends Fragment {
         construirRecycler(vista);
         //Llenar el recycler con informacion de firebase
         llenarConIncidencias();
+        //Tomamos el Spinner para las opciones fijas de busqueda
+        opciones = vista.findViewById(R.id.sp_opciones);
+        //Las opciones del spinner y su funcionalidad en el metodo:
+        setOpcionesSpinner();
+
         //Retornamos la vista que ha sido inflada
         return vista;
+    }
+
+    private void setOpcionesSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.opciones, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.preference_category);
+        opciones.setAdapter(adapter);
+        opciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(parent.getContext(), "Selecciono: "+parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void construirRecycler(View vista) {
@@ -288,7 +315,7 @@ public class GestionarIncidenciaFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        consultarPorTipoIncidencia("Chatarra");
+//        consultarPorTipoIncidencia("Chatarra");
     }
 
     //endregion
