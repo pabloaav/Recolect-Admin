@@ -8,7 +8,7 @@
     <string name="bt_registrarse">CREAR UNA CUENTA</string>
     <string name="bt_log_google">INICIAR CON GOOGLE</string>
 
-
+    <!--Navigation Drawer-->
     <string name="app_name">Recolect-Admin</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -17,7 +17,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Opciones</string>
 
-
+    <!--Menu Navigation Drawer-->
     <string name="menu_gestionar_inc">Gestionar Incidencias</string>
     <string name="menu_gestionar_ecopuntos">Gestionar Eco Puntos</string>
     <string name="menu_gestionar_admin">Gestionar Administradores</string>
@@ -27,6 +27,7 @@
     <string name="menu_reporte_inc">Reportes de Incidencias</string>
 
     <string name="tv_bienvenida">Presione Menú o Deslice Para Empezar</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

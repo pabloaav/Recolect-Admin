@@ -3,13 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBotonVerde"
+    android:background="@color/color3"
     tools:context=".fragmentos.GestionarEcopuntoFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tv_frag_gest_ecop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/titulo_reporte_ecopuntos" />
+        android:fontFamily="@font/roboto_bold_italic"
+        android:gravity="center|top"
+        android:hint="@string/menu_gestionar_ecopuntos"
+        android:textColorHint="@color/colorBotonBlanco"
+        android:textSize="30sp" />
 
 </FrameLayout>
