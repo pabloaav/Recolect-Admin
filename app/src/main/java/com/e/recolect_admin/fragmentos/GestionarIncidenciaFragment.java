@@ -279,10 +279,16 @@ public class GestionarIncidenciaFragment extends Fragment {
     }
 
     private void consultarPorTipoIncidencia(String p_tipo) {
-        p_tipo = "Domiciliario";
         Query query = dbRefIncidencias
                 .orderByChild("tipo")
                 .equalTo(p_tipo);
+        query.addListenerForSingleValueEvent(oyenteValorIncidencia);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        consultarPorTipoIncidencia("Chatarra");
     }
 
     //endregion
