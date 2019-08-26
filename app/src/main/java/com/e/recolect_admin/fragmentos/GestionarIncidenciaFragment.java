@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -57,9 +58,12 @@ public class GestionarIncidenciaFragment extends Fragment {
 
     //region ATRIBUTOS
     DatabaseReference mDataBase;
+    DatabaseReference dbRefIncidencias;
     FirebaseAuth mAuth;
     ArrayList<IncidenciaPojo> listaIncidenciaPojos;
     RecyclerView rvIncidencias;
+    ValueEventListener oyenteValorIncidencia;
+    AdaptadorRecyclerIncidencias adapter;
     //endregion
 
     //region METODOS
@@ -74,7 +78,38 @@ public class GestionarIncidenciaFragment extends Fragment {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         mDataBase = firebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
-    }
+
+        //Creamos el adaptador de incidencias
+        adapter = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());
+
+        //Esta es una referencia directa a los nodos incidencias de cada usuario
+        dbRefIncidencias = mDataBase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("incidencias");
+
+        //Un oyente de eventos de valor para los nodos de incidencias
+        oyenteValorIncidencia = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (!listaIncidenciaPojos.isEmpty()) {
+                        listaIncidenciaPojos.clear();
+                    }
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        IncidenciaPojo incPojo = snapshot.getValue(IncidenciaPojo.class);
+                        listaIncidenciaPojos.add(incPojo);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        //Adherimos el oyente a la referencia de la base de datos para las incidencias
+        dbRefIncidencias.addListenerForSingleValueEvent(oyenteValorIncidencia);
+    }//cierra onCreate()
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -229,7 +264,7 @@ public class GestionarIncidenciaFragment extends Fragment {
         if (leerEstadoIncidencia(inc.getEstado()).equals("En Proceso")) {
             enProceso = true;
             terminado = true;
-        }else{
+        } else {
             enProceso = true;
             terminado = false;
         }
@@ -241,6 +276,13 @@ public class GestionarIncidenciaFragment extends Fragment {
         nodoEstado.put("Terminado", terminado);
 
         return nodoEstado;
+    }
+
+    private void consultarPorTipoIncidencia(String p_tipo) {
+        p_tipo = "Domiciliario";
+        Query query = dbRefIncidencias
+                .orderByChild("tipo")
+                .equalTo(p_tipo);
     }
 
     //endregion
