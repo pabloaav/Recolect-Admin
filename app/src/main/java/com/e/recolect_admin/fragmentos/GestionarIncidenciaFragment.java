@@ -114,7 +114,7 @@ public class GestionarIncidenciaFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    if(!listaIncidenciaPojos.isEmpty()){
+                    if (!listaIncidenciaPojos.isEmpty()) {
                         listaIncidenciaPojos.clear();
                     }
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -194,7 +194,7 @@ public class GestionarIncidenciaFragment extends Fragment {
 
         String claveIncidencia = inc.getKey();
         DatabaseReference ref = mDataBase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("incidencias").child(claveIncidencia).child("estado");
-        ref.setValue(hashMapCambairEstado())
+        ref.setValue(hashMapCambiarEstado(inc))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -223,9 +223,16 @@ public class GestionarIncidenciaFragment extends Fragment {
         return resultado;
     }
 
-    private Map<String, Boolean> hashMapCambairEstado() {
-        boolean enProceso = true;
-        boolean terminado = true;
+    private Map<String, Boolean> hashMapCambiarEstado(IncidenciaPojo inc) {
+        boolean enProceso;
+        boolean terminado;
+        if (leerEstadoIncidencia(inc.getEstado()).equals("En Proceso")) {
+            enProceso = true;
+            terminado = true;
+        }else{
+            enProceso = true;
+            terminado = false;
+        }
 
         //Ahora el objeto hashMap para subir a la base de datos
         Map<String, Boolean> nodoEstado = new HashMap<>();
