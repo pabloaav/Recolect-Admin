@@ -1,16 +1,17 @@
 package com.e.recolect_admin.fragmentos;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.e.recolect_admin.adaptadores.AdaptadorRecyclerIncidencias;
 import com.e.recolect_admin.modelo.IncidenciaPojo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -69,6 +71,8 @@ public class GestionarIncidenciaFragment extends Fragment {
     ValueEventListener oyenteValorIncidencia;
     AdaptadorRecyclerIncidencias adapter;
     Spinner opciones;
+    FloatingActionButton fab;
+    String fecha = "fecha";
     //endregion
 
     //region METODOS
@@ -134,6 +138,7 @@ public class GestionarIncidenciaFragment extends Fragment {
         //Las opciones del spinner y su funcionalidad en el metodo:
         setOpcionesSpinner();
 
+        fab = vista.findViewById(R.id.fab);
         //Retornamos la vista que ha sido inflada
         return vista;
     }
@@ -150,9 +155,6 @@ public class GestionarIncidenciaFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String opcionElegida = parent.getItemAtPosition(position).toString();
                 switch (opcionElegida) {
-//        <item > Fecha </item >
-//        <item > Estado "En Proceso" </item >
-//        <item > Estado "Terminado" </item >
                     case "Tipo Domiciliario":
                         consultarPorTipoIncidencia("Domiciliario");
                         break;
@@ -170,10 +172,14 @@ public class GestionarIncidenciaFragment extends Fragment {
                         break;
                     case "Estado En Proceso":
                         consultarPorEstado("En Proceso");
+                    case "Fecha":
+                        abrirCalendario();
+                        break;
                     default:
-                        Toast.makeText(getContext(), "Bienvenido a Gestionar Incidencias", Toast.LENGTH_SHORT).show();
+
                         break;
                 }
+                opciones.setSelection(0);
             }
 
             @Override
@@ -181,6 +187,136 @@ public class GestionarIncidenciaFragment extends Fragment {
 
             }
         });
+    }
+
+    private void abrirCalendario() {
+        dialogBuscarFecha();
+    }
+
+    private void dialogBuscarFecha() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // Get the layout inflater
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View vista = inflater.inflate(R.layout.buscar_fecha, null);
+        CalendarView calendario = vista.findViewById(R.id.calendario_buscar);
+        calendario.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                fecha = dayOfMonth + " " + obtenerNombreMes(month);
+                Log.d("Fecha: ", "La Fecha es " + fecha);
+            }
+        });//cierra onDateChange
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(vista)
+                // Add action buttons
+                .setPositiveButton("BUSCAR", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (!fecha.isEmpty() && !fecha.equals("fecha")) {
+                            consultarPorFecha(fecha);
+                        }
+                    }
+                })//Cierra boton positivo
+                .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.show();
+    }
+
+    private void consultarPorFecha(final String fecha) {
+        dbRefIncidencias.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (!listaIncidenciaPojos.isEmpty()) {
+                        listaIncidenciaPojos.clear();
+                    }
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        IncidenciaPojo value = snapshot.getValue(IncidenciaPojo.class);
+                        if (value.getFecha().contains(fecha)) {
+                            value.setKey(snapshot.getKey());
+                            value.setTipo(value.getTipo());
+                            value.setFecha(value.getFecha());
+                            value.setDescripcion(value.getDescripcion());
+                            value.setDireccion(value.getDireccion());
+                            value.setImagen(value.getImagen());
+                            Map<String, Object> ubicacion = value.getUbicacion();
+                            value.setCadenaUbicacion(value.getCadenaUbicacion());
+                            value.setEstado(value.getEstado());
+                            listaIncidenciaPojos.add(value);
+                        }
+                    }
+                }
+                //Creamos el adaptador de Incidencias
+                adapter = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());
+
+                //Le decimos al adaptador que escuche y haga algo cuando se hace click
+                adapter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            IncidenciaPojo incidenciaPojo = listaIncidenciaPojos.get(rvIncidencias.getChildAdapterPosition(view));
+                            mostrarDialogoCambio(incidenciaPojo);
+                        }
+                    }
+                });
+
+                //Seteamos el adaptador al recycler
+                rvIncidencias.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private String obtenerNombreMes(int month) {
+        int mes = month + 1;
+        String nombreMes = "ago";
+        switch (mes) {
+            case 1:
+                nombreMes = "ene";
+                break;
+            case 2:
+                nombreMes = "feb";
+                break;
+            case 3:
+                nombreMes = "mar";
+                break;
+            case 4:
+                nombreMes = "abr";
+                break;
+            case 5:
+                nombreMes = "may";
+                break;
+            case 6:
+                nombreMes = "jun";
+                break;
+            case 7:
+                nombreMes = "jul";
+                break;
+            case 8:
+                nombreMes = "ago";
+                break;
+            case 9:
+                nombreMes = "sep";
+                break;
+            case 10:
+                nombreMes = "oct";
+                break;
+            case 11:
+                nombreMes = "nov";
+                break;
+            case 12:
+                nombreMes = "dic";
+                break;
+        }
+        return nombreMes;
     }
 
     private void construirRecycler(View vista) {
