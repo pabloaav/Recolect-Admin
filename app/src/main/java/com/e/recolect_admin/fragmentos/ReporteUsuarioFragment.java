@@ -21,6 +21,7 @@ import com.e.recolect_admin.R;
  * create an instance of this fragment.
  */
 public class ReporteUsuarioFragment extends Fragment {
+    //region Atributos por default
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,7 +32,9 @@ public class ReporteUsuarioFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    //endregion
 
+    //region Metodos por default
     public ReporteUsuarioFragment() {
         // Required empty public constructor
     }
@@ -108,4 +111,5 @@ public class ReporteUsuarioFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    //endregion
 }

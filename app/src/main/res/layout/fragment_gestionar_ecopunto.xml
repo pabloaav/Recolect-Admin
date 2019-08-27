@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color3"
+    android:background="@color/color2"
     tools:context=".fragmentos.GestionarEcopuntoFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -15,6 +15,6 @@
         android:gravity="center|top"
         android:hint="@string/menu_gestionar_ecopuntos"
         android:textColorHint="@color/colorBotonBlanco"
-        android:textSize="30sp" />
+        android:textSize="24sp" />
 
 </FrameLayout>
