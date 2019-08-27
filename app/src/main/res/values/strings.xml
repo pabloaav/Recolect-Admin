@@ -41,7 +41,7 @@
         <item>Tipo Industrial</item>
         <item>Tipo Vidrio</item>
         <item>Fecha</item>
-        <item>Estado "En Proceso"</item>
-        <item>Estado "Terminado"</item>
+        <item>Estado En Proceso</item>
+        <item>Estado Terminado</item>
     </string-array>
 </resources>

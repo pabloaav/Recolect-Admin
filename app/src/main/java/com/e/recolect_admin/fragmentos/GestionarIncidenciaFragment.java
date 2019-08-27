@@ -138,6 +138,9 @@ public class GestionarIncidenciaFragment extends Fragment {
         return vista;
     }
 
+    /**
+     * Evento que escucha el click del spinner para buscar incidencias por tipos determinados
+     */
     private void setOpcionesSpinner() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.opciones, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.preference_category);
@@ -162,6 +165,11 @@ public class GestionarIncidenciaFragment extends Fragment {
                     case "Tipo Chatarra":
                         consultarPorTipoIncidencia("Chatarra");
                         break;
+                    case "Estado Terminado":
+                        consultarPorEstado("Terminado");
+                        break;
+                    case "Estado En Proceso":
+                        consultarPorEstado("En Proceso");
                     default:
                         Toast.makeText(getContext(), "Bienvenido a Gestionar Incidencias", Toast.LENGTH_SHORT).show();
                         break;
@@ -331,6 +339,113 @@ public class GestionarIncidenciaFragment extends Fragment {
                 .equalTo(p_tipo);
         query.addListenerForSingleValueEvent(oyenteValorIncidencia);
 
+    }
+
+    private void consultarPorEstado(String p_estado) {
+        if (p_estado.equals("En Proceso")) {
+            llenarEnProceso();
+        } else {
+            llenarTerminado();
+        }
+    }
+
+    private void llenarTerminado() {
+        dbRefIncidencias.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (!listaIncidenciaPojos.isEmpty()) {
+                        listaIncidenciaPojos.clear();
+                    }
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        IncidenciaPojo value = snapshot.getValue(IncidenciaPojo.class);
+                        if (leerEstadoIncidencia(value.getEstado()).equals("Terminado")) {
+                            value.setKey(snapshot.getKey());
+                            value.setTipo(value.getTipo());
+                            value.setFecha(value.getFecha());
+                            value.setDescripcion(value.getDescripcion());
+                            value.setDireccion(value.getDireccion());
+                            value.setImagen(value.getImagen());
+                            Map<String, Object> ubicacion = value.getUbicacion();
+                            value.setCadenaUbicacion(value.getCadenaUbicacion());
+                            value.setEstado(value.getEstado());
+                            listaIncidenciaPojos.add(value);
+                        }
+                    }
+                }
+                //Creamos el adaptador de Incidencias
+                adapter = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());
+
+                //Le decimos al adaptador que escuche y haga algo cuando se hace click
+                adapter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            IncidenciaPojo incidenciaPojo = listaIncidenciaPojos.get(rvIncidencias.getChildAdapterPosition(view));
+                            mostrarDialogoCambio(incidenciaPojo);
+                        }
+                    }
+                });
+
+                //Seteamos el adaptador al recycler
+                rvIncidencias.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void llenarEnProceso() {
+
+        dbRefIncidencias.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (!listaIncidenciaPojos.isEmpty()) {
+                        listaIncidenciaPojos.clear();
+                    }
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        IncidenciaPojo value = snapshot.getValue(IncidenciaPojo.class);
+                        if (leerEstadoIncidencia(value.getEstado()).equals("En Proceso")) {
+                            value.setKey(snapshot.getKey());
+                            value.setTipo(value.getTipo());
+                            value.setFecha(value.getFecha());
+                            value.setDescripcion(value.getDescripcion());
+                            value.setDireccion(value.getDireccion());
+                            value.setImagen(value.getImagen());
+                            Map<String, Object> ubicacion = value.getUbicacion();
+                            value.setCadenaUbicacion(value.getCadenaUbicacion());
+                            value.setEstado(value.getEstado());
+                            listaIncidenciaPojos.add(value);
+                        }
+                    }
+                }
+                //Creamos el adaptador de Incidencias
+                adapter = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());
+
+                //Le decimos al adaptador que escuche y haga algo cuando se hace click
+                adapter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            IncidenciaPojo incidenciaPojo = listaIncidenciaPojos.get(rvIncidencias.getChildAdapterPosition(view));
+                            mostrarDialogoCambio(incidenciaPojo);
+                        }
+                    }
+                });
+
+                //Seteamos el adaptador al recycler
+                rvIncidencias.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
