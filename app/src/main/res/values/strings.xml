@@ -36,10 +36,12 @@
     <string name="titulo_reporte_ecopuntos">Gestionar Ecopuntos Fragment</string>
     <string-array name="opciones">
         <item>Buscar incidencias por:</item>
-        <item>Tipo</item>
+        <item>Tipo Domiciliario</item>
+        <item>Tipo Chatarra</item>
+        <item>Tipo Industrial</item>
+        <item>Tipo Vidrio</item>
         <item>Fecha</item>
         <item>Estado "En Proceso"</item>
         <item>Estado "Terminado"</item>
     </string-array>
-
 </resources>

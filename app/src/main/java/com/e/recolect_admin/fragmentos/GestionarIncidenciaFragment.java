@@ -1,5 +1,6 @@
 package com.e.recolect_admin.fragmentos;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -93,15 +94,14 @@ public class GestionarIncidenciaFragment extends Fragment {
         oyenteValorIncidencia = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaIncidenciaPojos.clear();
                 if (dataSnapshot.exists()) {
-                    if (!listaIncidenciaPojos.isEmpty()) {
-                        listaIncidenciaPojos.clear();
-                    }
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         IncidenciaPojo incPojo = snapshot.getValue(IncidenciaPojo.class);
                         listaIncidenciaPojos.add(incPojo);
                     }
                     adapter.notifyDataSetChanged();
+
                 }
             }
 
@@ -145,7 +145,27 @@ public class GestionarIncidenciaFragment extends Fragment {
         opciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(parent.getContext(), "Selecciono: "+parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                String opcionElegida = parent.getItemAtPosition(position).toString();
+                switch (opcionElegida) {
+//        <item > Fecha </item >
+//        <item > Estado "En Proceso" </item >
+//        <item > Estado "Terminado" </item >
+                    case "Tipo Domiciliario":
+                        consultarPorTipoIncidencia("Domiciliario");
+                        break;
+                    case "Tipo Industrial":
+                        consultarPorTipoIncidencia("Industrial");
+                        break;
+                    case "Tipo Vidrio":
+                        consultarPorTipoIncidencia("Vidrio");
+                        break;
+                    case "Tipo Chatarra":
+                        consultarPorTipoIncidencia("Chatarra");
+                        break;
+                    default:
+                        Toast.makeText(getContext(), "Bienvenido a Gestionar Incidencias", Toast.LENGTH_SHORT).show();
+                        break;
+                }
             }
 
             @Override
@@ -194,10 +214,10 @@ public class GestionarIncidenciaFragment extends Fragment {
                     }
                 }
                 //Creamos el adaptador de Incidencias
-                AdaptadorRecyclerIncidencias adaptador = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());
+                adapter = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());
 
                 //Le decimos al adaptador que escuche y haga algo cuando se hace click
-                adaptador.setOnClickListener(new View.OnClickListener() {
+                adapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -208,7 +228,7 @@ public class GestionarIncidenciaFragment extends Fragment {
                 });
 
                 //Seteamos el adaptador al recycler
-                rvIncidencias.setAdapter(adaptador);
+                rvIncidencias.setAdapter(adapter);
             }
 
             @Override
@@ -310,6 +330,7 @@ public class GestionarIncidenciaFragment extends Fragment {
                 .orderByChild("tipo")
                 .equalTo(p_tipo);
         query.addListenerForSingleValueEvent(oyenteValorIncidencia);
+
     }
 
     @Override
