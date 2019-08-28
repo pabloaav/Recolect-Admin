@@ -64,7 +64,7 @@ public class GestionarIncidenciaFragment extends Fragment {
 
     //region ATRIBUTOS
     DatabaseReference mDataBase;
-    DatabaseReference dbRefIncidencias;
+    DatabaseReference dbRefNodoIncidencias;
     FirebaseAuth mAuth;
     ArrayList<IncidenciaPojo> listaIncidenciaPojos;
     RecyclerView rvIncidencias;
@@ -73,6 +73,7 @@ public class GestionarIncidenciaFragment extends Fragment {
     Spinner opciones;
     FloatingActionButton fab;
     String fecha = "fecha";
+
     //endregion
 
     //region METODOS
@@ -92,7 +93,7 @@ public class GestionarIncidenciaFragment extends Fragment {
         adapter = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());
 
         //Esta es una referencia directa a los nodos incidencias de cada usuario
-        dbRefIncidencias = mDataBase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("incidencias");
+        dbRefNodoIncidencias = mDataBase.child("Incidencias");
 
         //Un oyente de eventos de valor para los nodos de incidencias
         oyenteValorIncidencia = new ValueEventListener() {
@@ -116,7 +117,7 @@ public class GestionarIncidenciaFragment extends Fragment {
         };
 
         //Adherimos el oyente a la referencia de la base de datos para las incidencias
-        dbRefIncidencias.addListenerForSingleValueEvent(oyenteValorIncidencia);
+        dbRefNodoIncidencias.addListenerForSingleValueEvent(oyenteValorIncidencia);
 
     }//cierra onCreate()
 
@@ -227,7 +228,7 @@ public class GestionarIncidenciaFragment extends Fragment {
     }
 
     private void consultarPorFecha(final String fecha) {
-        dbRefIncidencias.addValueEventListener(new ValueEventListener() {
+        dbRefNodoIncidencias.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -335,26 +336,18 @@ public class GestionarIncidenciaFragment extends Fragment {
 
     private void llenarConIncidencias() {
 
-        DatabaseReference ref = mDataBase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("incidencias");
-        ref.addValueEventListener(new ValueEventListener() {
+        dbRefNodoIncidencias.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     if (!listaIncidenciaPojos.isEmpty()) {
                         listaIncidenciaPojos.clear();
                     }
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        IncidenciaPojo value = snapshot.getValue(IncidenciaPojo.class);
-                        value.setKey(snapshot.getKey());
-                        value.setTipo(value.getTipo());
-                        value.setFecha(value.getFecha());
-                        value.setDescripcion(value.getDescripcion());
-                        value.setDireccion(value.getDireccion());
-                        value.setImagen(value.getImagen());
-                        Map<String, Object> ubicacion = value.getUbicacion();
-                        value.setCadenaUbicacion(value.getCadenaUbicacion());
-                        value.setEstado(value.getEstado());
-                        listaIncidenciaPojos.add(value);
+                    for (DataSnapshot unUsuario : dataSnapshot.getChildren()) {
+                        for (DataSnapshot unaIncidencia : unUsuario.getChildren()) {
+                            IncidenciaPojo value = unaIncidencia.getValue(IncidenciaPojo.class);
+                            listaIncidenciaPojos.add(value);
+                        }
                     }
                 }
                 //Creamos el adaptador de Incidencias
@@ -470,7 +463,7 @@ public class GestionarIncidenciaFragment extends Fragment {
     }
 
     private void consultarPorTipoIncidencia(String p_tipo) {
-        Query query = dbRefIncidencias
+        Query query = dbRefNodoIncidencias
                 .orderByChild("tipo")
                 .equalTo(p_tipo);
         query.addListenerForSingleValueEvent(oyenteValorIncidencia);
@@ -486,7 +479,7 @@ public class GestionarIncidenciaFragment extends Fragment {
     }
 
     private void llenarTerminado() {
-        dbRefIncidencias.addValueEventListener(new ValueEventListener() {
+        dbRefNodoIncidencias.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -536,7 +529,7 @@ public class GestionarIncidenciaFragment extends Fragment {
 
     private void llenarEnProceso() {
 
-        dbRefIncidencias.addValueEventListener(new ValueEventListener() {
+        dbRefNodoIncidencias.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
