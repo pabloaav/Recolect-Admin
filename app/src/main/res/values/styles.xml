@@ -24,4 +24,5 @@
         <item name="android:textColorSecondary">@color/colorFondoBlanco</item>
     </style>
 
+
 </resources>

@@ -1,11 +1,15 @@
 package com.e.recolect_admin;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,13 +21,23 @@ import com.e.recolect_admin.fragmentos.GestionarEcopuntoFragment;
 import com.e.recolect_admin.fragmentos.GestionarIncidenciaFragment;
 import com.e.recolect_admin.fragmentos.ReporteIncidenciaFragment;
 import com.e.recolect_admin.fragmentos.ReporteUsuarioFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ReporteUsuarioFragment.OnFragmentInteractionListener, GestionarIncidenciaFragment.OnFragmentInteractionListener, GestionarEcopuntoFragment.OnFragmentInteractionListener, ReporteIncidenciaFragment.OnFragmentInteractionListener {
+
+    //region Atributos
+    private FirebaseAuth firebaseAuth;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +62,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
 
+        inicializarFirebase();
 
+        doLoginWhitEmailPassword("pabloaav@yahoo.com.ar", "pablo35");
     }
 
     @Override
@@ -123,6 +139,51 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Check if user is signed in (non-null) and update UI accordingly.
+                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                if (currentUser != null) {
+                    Toast.makeText(MainActivity.this, "Bienvenido: " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "No hay usuario", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }, 2000);
+    }//Fin de onStart()
+
+
+    private void inicializarFirebase() {
+        FirebaseApp.initializeApp(this);
+        //inicializamos el objeto firebaseAuth
+        firebaseAuth = FirebaseAuth.getInstance();
+    }
+
+    public void doLoginWhitEmailPassword(String email, String password) {
+
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+
+                            } else {
+                                Toast.makeText(MainActivity.this, "Falló la autenticación. Verifique los datos",
+                                        Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    });
+
 
     }
 }

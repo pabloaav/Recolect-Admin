@@ -3,6 +3,7 @@ package com.e.recolect_admin.modelo;
 import java.util.Map;
 
 public class IncidenciaPojo {
+    private String key;
     private String tipo;
     private String fecha;
     private String imagen;
@@ -13,6 +14,14 @@ public class IncidenciaPojo {
     private Map<String, Boolean> estado;
 
     public IncidenciaPojo() {
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getTipo() {

@@ -33,8 +33,17 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="titulo_reporte_usuarios">FRagmento de Reportes de Usuario</string>
     <string name="titulo_reporte_incidencia">Fragmento Reportes de Incidencias</string>
-    <string name="titulo_fragmento_incidencias">Gestionar Incidencias Fragment</string>
+    <string name="titulo_fragmento_incidencias">Administrar Incidencias</string>
     <string name="titulo_reporte_ecopuntos">Gestionar Ecopuntos Fragment</string>
 
-
+    <string-array name = "opciones">
+        <item>Buscar incidencias por:</item>
+        <item>Tipo Domiciliario</item>
+        <item>Tipo Chatarra</item>
+        <item>Tipo Industrial</item>
+        <item>Tipo Vidrio</item>
+        <item>Fecha</item>
+        <item>Estado En Proceso</item>
+        <item>Estado Terminado</item>
+    </string-array>
 </resources>
