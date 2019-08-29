@@ -12,8 +12,17 @@ public class IncidenciaPojo {
     private Map<String, Object> ubicacion;
     private String cadenaUbicacion;
     private Map<String, Boolean> estado;
+    private String usuario;
 
     public IncidenciaPojo() {
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getKey() {

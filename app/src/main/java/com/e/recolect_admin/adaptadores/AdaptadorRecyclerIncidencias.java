@@ -75,7 +75,7 @@ public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<Adaptador
         incidenciasViewHolder.ubicacion.setText(cadenaSinProvincia);
         //Tomamos el estado de la base de datos
         incidenciasViewHolder.estado.setText(leerEstadoIncidencia(incidencia.getEstado()));
-
+        incidenciasViewHolder.usuario.setText(incidencia.getUsuario());
 //        incidenciasViewHolder.imagen.setImageResource(R.drawable.basura);
         String imagen = incidencia.getImagen();
 //cargar foto Firebase
