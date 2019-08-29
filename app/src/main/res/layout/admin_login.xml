@@ -34,7 +34,7 @@
                 android:hint="@string/txt_correoLogin"
                 android:inputType="textPersonName"
                 android:textColor="@color/colorAccent"
-                android:textColorHighlight="@color/colorAccent"
+                android:textColorHighlight="@color/colorBotonBlanco"
                 android:textColorHint="@color/colorFondoBlanco"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
