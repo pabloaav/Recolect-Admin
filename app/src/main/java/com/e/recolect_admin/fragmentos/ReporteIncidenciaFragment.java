@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.e.recolect_admin.R;
+import com.github.mikephil.charting.charts.PieChart;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +22,7 @@ import com.e.recolect_admin.R;
  * create an instance of this fragment.
  */
 public class ReporteIncidenciaFragment extends Fragment {
+
     //region Atributos por default
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,6 +34,10 @@ public class ReporteIncidenciaFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    //endregion
+
+    //region ATRIBUTOS
+    private PieChart pieIncidencias;
     //endregion
 
     //region Metodos por default
@@ -57,21 +63,6 @@ public class ReporteIncidenciaFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reporte_incidencia, container, false);
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -110,6 +101,31 @@ public class ReporteIncidenciaFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    //endregion
+
+    //region METODOS
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View vista = inflater.inflate(R.layout.fragment_reporte_incidencia, container, false);
+
+        //Link del recurso pieChart de Incidencias
+        pieIncidencias = vista.findViewById(R.id.graf_pie_incidencias);
+
+        return vista;
     }
     //endregion
 }

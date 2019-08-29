@@ -6,7 +6,12 @@
     android:background="@color/color2"
     tools:context=".fragmentos.ReporteIncidenciaFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/graf_pie_incidencias"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
