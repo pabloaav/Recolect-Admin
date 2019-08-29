@@ -149,10 +149,10 @@ public class GestionarIncidenciaFragment extends Fragment {
      * Evento que escucha el click del spinner para buscar incidencias por tipos determinados
      */
     private void setOpcionesSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.opciones, android.R.layout.simple_selectable_list_item);
-        adapter.setDropDownViewResource(android.R.layout.preference_category);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.opciones, R.layout.items_spinner_opciones_busqueda);
+        adapter.setDropDownViewResource(R.layout.items_spinner_opciones_busqueda);
         opciones.setAdapter(adapter);
-        opciones.setDropDownVerticalOffset(50);
+        //Aqui estan todas las opciones del spinner
         opciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
