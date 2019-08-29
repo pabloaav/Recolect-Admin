@@ -89,8 +89,8 @@ public class GestionarIncidenciaFragment extends Fragment {
         mDataBase = firebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
 
-        //Creamos el adaptador de incidencias
-        adapter = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());
+//        //Creamos el adaptador de incidencias
+//        adapter = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());
 
         //Esta es una referencia directa a los nodos incidencias de cada usuario
         dbRefNodoIncidencias = mDataBase.child("Incidencias");
@@ -98,29 +98,29 @@ public class GestionarIncidenciaFragment extends Fragment {
         //Referencia al nodo usuarios
         dbRefNodoUsuarios = mDataBase.child("Usuarios");
 
-        //Un oyente de eventos de valor para los nodos de incidencias
-        oyenteValorIncidencia = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                listaIncidenciaPojos.clear();
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot unUsuario : dataSnapshot.getChildren()) {
-                        for (DataSnapshot unaIncidencia : unUsuario.getChildren()) {
-                            IncidenciaPojo value = unaIncidencia.getValue(IncidenciaPojo.class);
-                            listaIncidenciaPojos.add(value);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-
-        //Adherimos el oyente a la referencia de la base de datos para las incidencias
-        dbRefNodoIncidencias.addListenerForSingleValueEvent(oyenteValorIncidencia);
+//        //Un oyente de eventos de valor para los nodos de incidencias
+//        oyenteValorIncidencia = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                listaIncidenciaPojos.clear();
+//                if (dataSnapshot.exists()) {
+//                    for (DataSnapshot unUsuario : dataSnapshot.getChildren()) {
+//                        for (DataSnapshot unaIncidencia : unUsuario.getChildren()) {
+//                            IncidenciaPojo value = unaIncidencia.getValue(IncidenciaPojo.class);
+//                            listaIncidenciaPojos.add(value);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        };
+//
+//        //Adherimos el oyente a la referencia de la base de datos para las incidencias
+//        dbRefNodoIncidencias.addListenerForSingleValueEvent(oyenteValorIncidencia);
 
     }//cierra onCreate()
 
