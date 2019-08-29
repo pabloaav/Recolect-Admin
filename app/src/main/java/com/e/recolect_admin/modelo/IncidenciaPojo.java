@@ -4,6 +4,7 @@ import java.util.Map;
 
 public class IncidenciaPojo {
     private String key;
+    private String claveUsuario;
     private String tipo;
     private String fecha;
     private String imagen;
@@ -15,6 +16,14 @@ public class IncidenciaPojo {
     private String usuario;
 
     public IncidenciaPojo() {
+    }
+
+    public String getClaveUsuario() {
+        return claveUsuario;
+    }
+
+    public void setClaveUsuario(String claveUsuario) {
+        this.claveUsuario = claveUsuario;
     }
 
     public String getUsuario() {

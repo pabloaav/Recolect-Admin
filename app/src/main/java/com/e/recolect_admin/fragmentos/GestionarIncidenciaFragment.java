@@ -14,11 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.e.recolect_admin.R;
 import com.e.recolect_admin.adaptadores.AdaptadorRecyclerIncidencias;
 import com.e.recolect_admin.modelo.IncidenciaPojo;
@@ -30,7 +32,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +64,7 @@ public class GestionarIncidenciaFragment extends Fragment {
 
     //region ATRIBUTOS
     DatabaseReference mDataBase;
-    DatabaseReference dbRefNodoIncidencias;
+    DatabaseReference dbRefNodoIncidencias, dbRefNodoUsuarios;
     FirebaseAuth mAuth;
     ArrayList<IncidenciaPojo> listaIncidenciaPojos;
     RecyclerView rvIncidencias;
@@ -90,6 +94,9 @@ public class GestionarIncidenciaFragment extends Fragment {
 
         //Esta es una referencia directa a los nodos incidencias de cada usuario
         dbRefNodoIncidencias = mDataBase.child("Incidencias");
+
+        //Referencia al nodo usuarios
+        dbRefNodoUsuarios = mDataBase.child("Usuarios");
 
         //Un oyente de eventos de valor para los nodos de incidencias
         oyenteValorIncidencia = new ValueEventListener() {
@@ -398,10 +405,15 @@ public class GestionarIncidenciaFragment extends Fragment {
     }
 
     private void cambiarEstado(IncidenciaPojo inc) {
-
+        Map<String, Boolean> nuevoEstado = hashMapCambiarEstado(inc);
         String claveIncidencia = inc.getKey();
-        DatabaseReference ref = mDataBase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("incidencias").child(claveIncidencia).child("estado");
-        ref.setValue(hashMapCambiarEstado(inc))
+        String claveUsuario = inc.getClaveUsuario();
+        DatabaseReference ref1 = dbRefNodoUsuarios.child(claveUsuario).child("incidencias").child(claveIncidencia).child("estado");
+        ref1.setValue(nuevoEstado);
+
+        DatabaseReference ref2 = dbRefNodoIncidencias.child(claveUsuario).child(claveIncidencia).child("estado");
+
+        ref2.setValue(nuevoEstado)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
