@@ -101,12 +101,12 @@ public class GestionarIncidenciaFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaIncidenciaPojos.clear();
                 if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        IncidenciaPojo incPojo = snapshot.getValue(IncidenciaPojo.class);
-                        listaIncidenciaPojos.add(incPojo);
+                    for (DataSnapshot unUsuario : dataSnapshot.getChildren()) {
+                        for (DataSnapshot unaIncidencia : unUsuario.getChildren()) {
+                            IncidenciaPojo value = unaIncidencia.getValue(IncidenciaPojo.class);
+                            listaIncidenciaPojos.add(value);
+                        }
                     }
-                    adapter.notifyDataSetChanged();
-
                 }
             }
 
@@ -148,9 +148,10 @@ public class GestionarIncidenciaFragment extends Fragment {
      * Evento que escucha el click del spinner para buscar incidencias por tipos determinados
      */
     private void setOpcionesSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.opciones, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.opciones, android.R.layout.simple_selectable_list_item);
         adapter.setDropDownViewResource(android.R.layout.preference_category);
         opciones.setAdapter(adapter);
+        opciones.setDropDownVerticalOffset(50);
         opciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -235,19 +236,12 @@ public class GestionarIncidenciaFragment extends Fragment {
                     if (!listaIncidenciaPojos.isEmpty()) {
                         listaIncidenciaPojos.clear();
                     }
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        IncidenciaPojo value = snapshot.getValue(IncidenciaPojo.class);
-                        if (value.getFecha().contains(fecha)) {
-                            value.setKey(snapshot.getKey());
-                            value.setTipo(value.getTipo());
-                            value.setFecha(value.getFecha());
-                            value.setDescripcion(value.getDescripcion());
-                            value.setDireccion(value.getDireccion());
-                            value.setImagen(value.getImagen());
-                            Map<String, Object> ubicacion = value.getUbicacion();
-                            value.setCadenaUbicacion(value.getCadenaUbicacion());
-                            value.setEstado(value.getEstado());
-                            listaIncidenciaPojos.add(value);
+                    for (DataSnapshot unUsuario : dataSnapshot.getChildren()) {
+                        for (DataSnapshot unaIncidencia : unUsuario.getChildren()) {
+                            IncidenciaPojo value = unaIncidencia.getValue(IncidenciaPojo.class);
+                            if (value.getFecha().contains(fecha)) {
+                                listaIncidenciaPojos.add(value);
+                            }
                         }
                     }
                 }
@@ -344,6 +338,7 @@ public class GestionarIncidenciaFragment extends Fragment {
                         listaIncidenciaPojos.clear();
                     }
                     for (DataSnapshot unUsuario : dataSnapshot.getChildren()) {
+                        //Rescatar los datos del usuario de esta incidencia
                         for (DataSnapshot unaIncidencia : unUsuario.getChildren()) {
                             IncidenciaPojo value = unaIncidencia.getValue(IncidenciaPojo.class);
                             listaIncidenciaPojos.add(value);
@@ -462,11 +457,46 @@ public class GestionarIncidenciaFragment extends Fragment {
         return nodoEstado;
     }
 
-    private void consultarPorTipoIncidencia(String p_tipo) {
-        Query query = dbRefNodoIncidencias
-                .orderByChild("tipo")
-                .equalTo(p_tipo);
-        query.addListenerForSingleValueEvent(oyenteValorIncidencia);
+    private void consultarPorTipoIncidencia(final String p_tipo) {
+        dbRefNodoIncidencias.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (!listaIncidenciaPojos.isEmpty()) {
+                        listaIncidenciaPojos.clear();
+                    }
+                    for (DataSnapshot unUsuario : dataSnapshot.getChildren()) {
+                        for (DataSnapshot unaIncidencia : unUsuario.getChildren()) {
+                            IncidenciaPojo value = unaIncidencia.getValue(IncidenciaPojo.class);
+                            if (value.getTipo().equals(p_tipo)) {
+                                listaIncidenciaPojos.add(value);
+                            }
+                        }
+                    }
+                }
+                //Creamos el adaptador de Incidencias
+                adapter = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());
+
+                //Le decimos al adaptador que escuche y haga algo cuando se hace click
+                adapter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            IncidenciaPojo incidenciaPojo = listaIncidenciaPojos.get(rvIncidencias.getChildAdapterPosition(view));
+                            mostrarDialogoCambio(incidenciaPojo);
+                        }
+                    }
+                });
+
+                //Seteamos el adaptador al recycler
+                rvIncidencias.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -486,19 +516,12 @@ public class GestionarIncidenciaFragment extends Fragment {
                     if (!listaIncidenciaPojos.isEmpty()) {
                         listaIncidenciaPojos.clear();
                     }
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        IncidenciaPojo value = snapshot.getValue(IncidenciaPojo.class);
-                        if (leerEstadoIncidencia(value.getEstado()).equals("Terminado")) {
-                            value.setKey(snapshot.getKey());
-                            value.setTipo(value.getTipo());
-                            value.setFecha(value.getFecha());
-                            value.setDescripcion(value.getDescripcion());
-                            value.setDireccion(value.getDireccion());
-                            value.setImagen(value.getImagen());
-                            Map<String, Object> ubicacion = value.getUbicacion();
-                            value.setCadenaUbicacion(value.getCadenaUbicacion());
-                            value.setEstado(value.getEstado());
-                            listaIncidenciaPojos.add(value);
+                    for (DataSnapshot unUsuario : dataSnapshot.getChildren()) {
+                        for (DataSnapshot unaIncidencia : unUsuario.getChildren()) {
+                            IncidenciaPojo value = unaIncidencia.getValue(IncidenciaPojo.class);
+                            if (leerEstadoIncidencia(value.getEstado()).equals("Terminado")) {
+                                listaIncidenciaPojos.add(value);
+                            }
                         }
                     }
                 }
@@ -536,19 +559,12 @@ public class GestionarIncidenciaFragment extends Fragment {
                     if (!listaIncidenciaPojos.isEmpty()) {
                         listaIncidenciaPojos.clear();
                     }
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        IncidenciaPojo value = snapshot.getValue(IncidenciaPojo.class);
-                        if (leerEstadoIncidencia(value.getEstado()).equals("En Proceso")) {
-                            value.setKey(snapshot.getKey());
-                            value.setTipo(value.getTipo());
-                            value.setFecha(value.getFecha());
-                            value.setDescripcion(value.getDescripcion());
-                            value.setDireccion(value.getDireccion());
-                            value.setImagen(value.getImagen());
-                            Map<String, Object> ubicacion = value.getUbicacion();
-                            value.setCadenaUbicacion(value.getCadenaUbicacion());
-                            value.setEstado(value.getEstado());
-                            listaIncidenciaPojos.add(value);
+                    for (DataSnapshot unUsuario : dataSnapshot.getChildren()) {
+                        for (DataSnapshot unaIncidencia : unUsuario.getChildren()) {
+                            IncidenciaPojo value = unaIncidencia.getValue(IncidenciaPojo.class);
+                            if (leerEstadoIncidencia(value.getEstado()).equals("En Proceso")) {
+                                listaIncidenciaPojos.add(value);
+                            }
                         }
                     }
                 }
