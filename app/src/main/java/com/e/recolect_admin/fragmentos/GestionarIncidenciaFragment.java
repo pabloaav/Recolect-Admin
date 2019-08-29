@@ -14,13 +14,11 @@ import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.e.recolect_admin.R;
 import com.e.recolect_admin.adaptadores.AdaptadorRecyclerIncidencias;
 import com.e.recolect_admin.modelo.IncidenciaPojo;
@@ -32,9 +30,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -139,8 +135,6 @@ public class GestionarIncidenciaFragment extends Fragment {
         //Las opciones del spinner y su funcionalidad en el metodo:
         setOpcionesSpinner();
 
-        fab = vista.findViewById(R.id.fab);
-        //Retornamos la vista que ha sido inflada
         return vista;
     }
 
@@ -338,7 +332,6 @@ public class GestionarIncidenciaFragment extends Fragment {
                         listaIncidenciaPojos.clear();
                     }
                     for (DataSnapshot unUsuario : dataSnapshot.getChildren()) {
-                        //Rescatar los datos del usuario de esta incidencia
                         for (DataSnapshot unaIncidencia : unUsuario.getChildren()) {
                             IncidenciaPojo value = unaIncidencia.getValue(IncidenciaPojo.class);
                             listaIncidenciaPojos.add(value);

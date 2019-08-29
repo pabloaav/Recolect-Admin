@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
 
         inicializarFirebase();
 
-        doLoginWhitEmailPassword("pabloaav@yahoo.com.ar", "pablo35");
+        doLoginWhitEmailPassword("administrador@gmail.com", "admin2019");
     }
 
     @Override

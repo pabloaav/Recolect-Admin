@@ -22,6 +22,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.e.recolect_admin.R;
 import com.e.recolect_admin.modelo.IncidenciaPojo;
+import com.e.recolect_admin.modelo.UsuarioPojo;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -176,6 +177,7 @@ public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<Adaptador
         private TextView ubicacion;
         private ProgressBar progressBar;
         private TextView estado;
+        private TextView usuario;
 
         /**
          * Constructor: cada dato de una incidencia, se asocia con los los elementos de la vista del cardview representados por su nombre de id que figuran en el layout Cardview
@@ -195,6 +197,7 @@ public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<Adaptador
 //            direccion = itemView.findViewById(R.id.cv_direccion);
             ubicacion = itemView.findViewById(R.id.cv_ubicacion);
             estado = itemView.findViewById(R.id.cv_estado);
+            usuario =itemView.findViewById(R.id.cv_nombre_usuario);
             progressBar = itemView.findViewById(R.id.progressBar);
         }
 
