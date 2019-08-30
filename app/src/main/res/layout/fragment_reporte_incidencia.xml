@@ -16,8 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fontFamily="@font/roboto_bold_italic"
-        android:gravity="center|top"
+        android:gravity="left|top"
         android:hint="@string/menu_reporte_inc"
+        android:layout_marginLeft="20dp"
         android:textColorHint="@color/colorBotonBlanco"
         android:textSize="24sp" />
 
