@@ -6,7 +6,9 @@
     android:fontFamily="@font/roboto_bold_italic"
     android:gravity="left"
     android:padding="10dp"
-    android:textColorHint="@color/colorPrimaryDark"
+    android:textColor="@color/colorFondoNegro"
+
+
     android:textSize="20sp" />
 
 

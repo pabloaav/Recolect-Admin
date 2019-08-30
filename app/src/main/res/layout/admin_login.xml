@@ -60,9 +60,9 @@
                 android:drawableLeft="@drawable/ic_admin_clave"
                 android:ems="10"
                 android:hint="@string/txt_contrasena"
+                android:inputType="textPassword"
                 android:fontFamily="@font/roboto_bold_italic"
                 android:textColorHint="@color/colorFondoBlanco"
-                android:inputType="textPassword"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -76,7 +76,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="15sp"
             android:background="@drawable/stylo_boton_pressed"
-
             android:drawableLeft="@drawable/ic_iniciar_sesion"
             android:fontFamily="@font/roboto_bold_italic"
             android:hint="@string/bt_loguear"
