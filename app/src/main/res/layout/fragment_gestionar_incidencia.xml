@@ -14,8 +14,8 @@
         android:layout_gravity="center|top"
         android:fontFamily="@font/roboto_mono_bold_italic"
         android:hint="@string/titulo_fragmento_incidencias"
-        android:textColor="#000000"
         android:textColorHint="@color/colorBotonBlanco"
+
         android:textSize="18sp"
         android:textStyle="bold" />
 

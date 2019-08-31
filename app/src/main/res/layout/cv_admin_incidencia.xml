@@ -59,7 +59,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/roboto_mono_bold_italic"
                     android:text="Usuario: "
-                    android:textColor="@color/colorBotonVerde"
+                    android:textColor="@color/colorFondoNegro"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -70,7 +70,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/roboto_mono_bold_italic"
                     android:text="Nombre y Apellido"
-                    android:textColor="@color/colorBotonVerde"
+                    android:textColor="@color/colorFondoNegro"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>

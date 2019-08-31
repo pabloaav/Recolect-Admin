@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorFondoNegro</item>
+        <item name="colorControlNormal">@color/colorFondoBlanco</item>
+        <item name="colorControlActivated">@color/colorFondoBlanco</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -23,6 +25,5 @@
     <style name="NavigationView">
         <item name="android:textColorSecondary">@color/colorFondoBlanco</item>
     </style>
-
 
 </resources>
