@@ -189,19 +189,20 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
         pieIncidencias.setEntryLabelColor(Color.WHITE);
         pieIncidencias.setEntryLabelTextSize(12f);
         pieIncidencias.animateY(1400, Easing.EaseInOutQuad);
+        // add a selection listener
+        pieIncidencias.setOnChartValueSelectedListener(this);
         setData();
         return vista;
     }
 
     private SpannableString generateCenterSpannableText() {
 
-        SpannableString s = new SpannableString("Recolect-Admin\nReporte de Incidencias");
+        SpannableString s = new SpannableString("Recolect-Admin\nIncidencias por Tipo");
         s.setSpan(new RelativeSizeSpan(1.7f), 0, 14, 0);
         s.setSpan(new StyleSpan(Typeface.NORMAL), 14, s.length() - 15, 0);
         s.setSpan(new ForegroundColorSpan(Color.GRAY), 14, s.length() - 15, 0);
-        s.setSpan(new RelativeSizeSpan(.8f), 14, s.length() - 15, 0);
         s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 14, s.length(), 0);
-        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 14, s.length(), 0);
+        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 20, s.length(), 0);
         return s;
     }
 

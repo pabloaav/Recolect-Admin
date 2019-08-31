@@ -1,12 +1,11 @@
 package com.e.recolect_admin;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.MenuItem;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,9 +26,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.core.view.Event;
 
 
 public class MainActivity extends AppCompatActivity
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity
         inicializarFirebase();
 
         doLoginWhitEmailPassword("administrador@gmail.com", "admin2019");
+
     }
 
     @Override
@@ -170,20 +172,21 @@ public class MainActivity extends AppCompatActivity
 
     public void doLoginWhitEmailPassword(String email, String password) {
 
-            firebaseAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
 
-                            } else {
-                                Toast.makeText(MainActivity.this, "Falló la autenticación. Verifique los datos",
-                                        Toast.LENGTH_LONG).show();
-                            }
-
+                        } else {
+                            Toast.makeText(MainActivity.this, "Falló la autenticación. Verifique los datos",
+                                    Toast.LENGTH_LONG).show();
                         }
-                    });
+
+                    }
+                });
 
 
     }
+
 }
