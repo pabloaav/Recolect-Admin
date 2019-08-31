@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:textSize="16sp"
     android:padding="10sp"
-    android:textColor="@color/colorBotonBlanco"
+    android:textColor="@color/colorFondoBlanco"
     android:fontFamily="@font/roboto_bold_italic"
+    android:backgroundTint="@color/color3"
     xmlns:android="http://schemas.android.com/apk/res/android" />
