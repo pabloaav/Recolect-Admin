@@ -6,7 +6,8 @@
     android:fontFamily="@font/roboto_bold_italic"
     android:gravity="left"
     android:padding="10dp"
-    android:textColor="@color/colorFondoNegro"
+    android:textColor="@color/colorFondoBlanco"
+    android:background="@color/color2"
     android:textSize="20sp" />
 
 
