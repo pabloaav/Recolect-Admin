@@ -14,7 +14,7 @@ public interface Busqueda {
     }
 
     interface Incidencia {
-        void cantidadMes();
+        int cantidadMes();
 
         void cantidadTipo();
 
