@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -242,6 +241,7 @@ public class GestionarIncidenciaFragment extends Fragment {
                             IncidenciaPojo value = unaIncidencia.getValue(IncidenciaPojo.class);
                             if (value.getFecha().contains(fecha)) {
                                 listaIncidenciaPojos.add(value);
+
                             }
                         }
                     }

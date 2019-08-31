@@ -3,6 +3,7 @@ package com.e.recolect_admin;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.e.recolect_admin.fragmentos.GestionarEcopuntoFragment;
 import com.e.recolect_admin.fragmentos.GestionarIncidenciaFragment;
 import com.e.recolect_admin.fragmentos.ReporteIncidenciaFragment;
 import com.e.recolect_admin.fragmentos.ReporteUsuarioFragment;
+import com.e.recolect_admin.presentacion.Estadisticas;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth firebaseAuth;
     //endregion
 
+    //region Metodos
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,7 +166,6 @@ public class MainActivity extends AppCompatActivity
         }, 2000);
     }//Fin de onStart()
 
-
     private void inicializarFirebase() {
         FirebaseApp.initializeApp(this);
         //inicializamos el objeto firebaseAuth
@@ -188,5 +190,15 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Estadisticas estadisticas = new Estadisticas();
+        int[] vect = estadisticas.getCantidadIncMes();
+        Log.d("meses","meses: "+ vect.toString() );
+    }
+
+    //endregion
 
 }

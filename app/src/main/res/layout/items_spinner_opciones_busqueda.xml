@@ -7,8 +7,6 @@
     android:gravity="left"
     android:padding="10dp"
     android:textColor="@color/colorFondoNegro"
-
-
     android:textSize="20sp" />
 
 
