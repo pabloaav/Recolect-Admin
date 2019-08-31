@@ -25,4 +25,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.024" />
 
+    <ImageView
+        android:id="@+id/iv_fondo"
+        android:layout_width="287dp"
+        android:layout_height="302dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_bienvenida"
+        app:srcCompat="@drawable/icono_app_admin" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
