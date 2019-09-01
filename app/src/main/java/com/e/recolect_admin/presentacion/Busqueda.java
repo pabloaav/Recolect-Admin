@@ -1,5 +1,9 @@
 package com.e.recolect_admin.presentacion;
 
+import com.e.recolect_admin.modelo.IncidenciaPojo;
+
+import java.util.ArrayList;
+
 public interface Busqueda {
     interface Usuario {
         void cantidadRegistros();
@@ -14,7 +18,7 @@ public interface Busqueda {
     }
 
     interface Incidencia {
-        void cantidadMes();
+        void cantidadMes(ArrayList<IncidenciaPojo> listaIncidenciaPojos);
 
         void cantidadTipo();
 

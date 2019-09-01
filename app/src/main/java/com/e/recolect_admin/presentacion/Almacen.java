@@ -13,7 +13,7 @@ public interface Almacen {
         void guardarIncPorUsuario();
     }
     interface Incidencias{
-        void guardarMes();
+        void guardarMes(int[] cantidadIncMes);
 
         void guardarTipo();
 

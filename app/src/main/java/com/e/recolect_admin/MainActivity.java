@@ -1,6 +1,7 @@
 package com.e.recolect_admin;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -17,10 +18,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.e.recolect_admin.adaptadores.AdaptadorRecyclerIncidencias;
 import com.e.recolect_admin.fragmentos.GestionarEcopuntoFragment;
 import com.e.recolect_admin.fragmentos.GestionarIncidenciaFragment;
 import com.e.recolect_admin.fragmentos.ReporteIncidenciaFragment;
 import com.e.recolect_admin.fragmentos.ReporteUsuarioFragment;
+import com.e.recolect_admin.modelo.IncidenciaPojo;
 import com.e.recolect_admin.presentacion.Estadisticas;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,7 +35,14 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.core.view.Event;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity
@@ -40,6 +50,9 @@ public class MainActivity extends AppCompatActivity
 
     //region Atributos
     private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase dbRecolectar;
+    private DatabaseReference dbRecolectarRoot;
+    Estadisticas estadisticas;
     //endregion
 
     //region Metodos
@@ -47,16 +60,17 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+        //FloatingActionButton fab = findViewById(R.id.fab);
+        //fab.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View view) {
+        //        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        //                .setAction("Action", null).show();
+        //    }
+        //});
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -70,6 +84,11 @@ public class MainActivity extends AppCompatActivity
 
         doLoginWhitEmailPassword("administrador@gmail.com", "admin2019");
 
+        actualizarEstadisticas();
+    }
+
+    private void actualizarEstadisticas() {
+        estadisticas.armarVectoresEstadisticas();
     }
 
     @Override
@@ -103,7 +122,6 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -157,7 +175,9 @@ public class MainActivity extends AppCompatActivity
                 // Check if user is signed in (non-null) and update UI accordingly.
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                 if (currentUser != null) {
-                    Toast.makeText(MainActivity.this, "Bienvenido: " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+                    View vista = findViewById(R.id.drawer_layout);
+                    Snackbar.make(vista, "Bienvenido Administrador: " + currentUser.getEmail(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 } else {
                     Toast.makeText(MainActivity.this, "No hay usuario", Toast.LENGTH_SHORT).show();
                 }
@@ -170,6 +190,9 @@ public class MainActivity extends AppCompatActivity
         FirebaseApp.initializeApp(this);
         //inicializamos el objeto firebaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
+        dbRecolectar = FirebaseDatabase.getInstance();
+        dbRecolectarRoot = dbRecolectar.getReference();
+        estadisticas = new Estadisticas(dbRecolectarRoot);
     }
 
     public void doLoginWhitEmailPassword(String email, String password) {
@@ -194,9 +217,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        Estadisticas estadisticas = new Estadisticas();
-        int[] vect = estadisticas.getCantidadIncMes();
-        Log.d("meses","meses: "+ vect.toString() );
+
     }
 
     //endregion

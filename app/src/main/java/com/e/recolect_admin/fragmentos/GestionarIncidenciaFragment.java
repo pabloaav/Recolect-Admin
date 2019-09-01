@@ -344,6 +344,7 @@ public class GestionarIncidenciaFragment extends Fragment {
                             listaIncidenciaPojos.add(value);
                         }
                     }
+
                 }
                 //Creamos el adaptador de Incidencias
                 adapter = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());

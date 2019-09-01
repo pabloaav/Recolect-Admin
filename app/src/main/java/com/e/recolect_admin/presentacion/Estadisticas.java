@@ -1,36 +1,32 @@
 package com.e.recolect_admin.presentacion;
 
-import android.view.View;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 
-import com.e.recolect_admin.MainActivity;
 import com.e.recolect_admin.modelo.IncidenciaPojo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia, Almacen.Incidencias {
 
     //region Atributos
-    private FirebaseDatabase dbRecolectar;
-    private DatabaseReference dbRecolectarRoot, refNodoIncidencias;
+    private DatabaseReference dbRoot, refNodoIncidencias;
     //el array donde guardar las cantidades por mes: indice 0 = enero (ene), etc...
     final int[] cantidadIncMes = new int[12];
+    //Crear la lista de incidencias
+    ArrayList<IncidenciaPojo> listaIncidenciaPojos = new ArrayList<>();
 
     //endregion
 
     //region Constructor
-    public Estadisticas() {
-        this.dbRecolectar = FirebaseDatabase.getInstance();
-        this.dbRecolectarRoot = dbRecolectar.getReference();
-        this.refNodoIncidencias = dbRecolectarRoot.child("Incidencias");
-        setcantidadIncMes();
-
+    public Estadisticas(DatabaseReference dbRoot) {
+        this.refNodoIncidencias = dbRoot.child("Incidencias");
+        this.dbRoot = dbRoot;
     }
     //endregion
 
@@ -38,10 +34,6 @@ public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia {
 
     public int[] getCantidadIncMes() {
         return cantidadIncMes;
-    }
-
-    public void setcantidadIncMes() {
-        cantidadMes();
     }
 
     //endregion
@@ -84,8 +76,12 @@ public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia {
      * Busca en Nodo Incidencias cuantas incidencias hay por cada mes
      */
     @Override
-    public void cantidadMes() {
-
+    public void cantidadMes(ArrayList<IncidenciaPojo> lista) {
+        for (IncidenciaPojo inc : lista) {
+            int indiceMes = numeroDeMes(inc.getFecha());
+            cantidadIncMes[indiceMes]++;
+        }
+        this.guardarMes(cantidadIncMes);
     }
 
     @Override
@@ -134,5 +130,73 @@ public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia {
         return mes;
     }
 
+    public void armarVectoresEstadisticas() {
+
+        refNodoIncidencias.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (!listaIncidenciaPojos.isEmpty()) {
+                        listaIncidenciaPojos.clear();
+                    }
+                    for (DataSnapshot unUsuario : dataSnapshot.getChildren()) {
+                        for (DataSnapshot unaIncidencia : unUsuario.getChildren()) {
+                            IncidenciaPojo incPojo = unaIncidencia.getValue(IncidenciaPojo.class);
+                            listaIncidenciaPojos.add(incPojo);
+                        }
+                    }
+                    //Se arman vectores de estadisticas con datos de las incidencias
+                    cantidadMes(listaIncidenciaPojos);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+    //endregion
+
+    //region Almacen Incidencias
+    @Override
+    public void guardarMes(int[] cantidadIncMes) {
+        DatabaseReference refMeses = dbRoot.child("Estadisticas/Incidencias/mes");
+
+        Map<String, Integer> mes = new HashMap<>();
+        mes.put("ene", cantidadIncMes[0]);
+        mes.put("feb", cantidadIncMes[1]);
+        mes.put("mar", cantidadIncMes[2]);
+        mes.put("abr", cantidadIncMes[3]);
+        mes.put("may", cantidadIncMes[4]);
+        mes.put("jun", cantidadIncMes[5]);
+        mes.put("jul", cantidadIncMes[6]);
+        mes.put("ago", cantidadIncMes[7]);
+        mes.put("sep", cantidadIncMes[8]);
+        mes.put("oct", cantidadIncMes[9]);
+        mes.put("nov", cantidadIncMes[10]);
+        mes.put("dic", cantidadIncMes[11]);
+
+        refMeses.setValue(mes);
+    }
+
+    @Override
+    public void guardarTipo() {
+
+    }
+
+    @Override
+    public void guardarEnProceso() {
+
+    }
+
+    @Override
+    public void guardarTerminado() {
+
+    }
     //endregion
 }
