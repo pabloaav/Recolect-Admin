@@ -1,6 +1,7 @@
 package com.e.recolect_admin.presentacion;
 
 import com.e.recolect_admin.modelo.IncidenciaPojo;
+import com.e.recolect_admin.modelo.UsuarioPojo;
 
 import java.util.ArrayList;
 
@@ -14,16 +15,16 @@ public interface Busqueda {
 
         void cantidadRegistrados();
 
-        void cantIncPorUsuario();
+        void cantIncPorUsuario(ArrayList<UsuarioPojo> listaUsuarioPojos);
     }
 
     interface Incidencia {
         void cantidadMes(ArrayList<IncidenciaPojo> listaIncidenciaPojos);
 
-        void cantidadTipo();
+        void cantidadTipo(ArrayList<IncidenciaPojo> listaIncidenciaPojos);
 
-        void cantidadEnProceso();
+        void cantidadPorEstado(ArrayList<IncidenciaPojo> listaIncidenciaPojos);
 
-        void cantidadTerminado();
+        void cantidadTotal(int count);
     }
 }

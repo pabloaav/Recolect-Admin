@@ -7,10 +7,8 @@ public class UsuarioPojo {
     private String nombre;
     private String apellido;
     private String email;
-    private String usuario;
-    private String password;
     private String idUsuario;
-    private IncidenciaPojo incidencias;
+    private int cantInc;
     //endregion
 
     //region Metodos
@@ -42,22 +40,6 @@ public class UsuarioPojo {
         this.email = email;
     }
 
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getIdUsuario() {
         return idUsuario;
     }
@@ -66,17 +48,17 @@ public class UsuarioPojo {
         this.idUsuario = idUsuario;
     }
 
-    public IncidenciaPojo getIncidencias() {
-        return incidencias;
-    }
-
-    public void setIncidencias(IncidenciaPojo incidencias) {
-        this.incidencias = incidencias;
-    }
-
     @Override
     public String toString() {
-        return this.getNombre() + '\'' + this.getApellido();
+        return this.getNombre() + " " + this.getApellido();
+    }
+
+    public void setCantidad(int cuentaIncPorUsuario) {
+        this.cantInc = cuentaIncPorUsuario;
+    }
+
+    public int getCantidad(){
+        return this.cantInc;
     }
 
     //endregion

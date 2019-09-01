@@ -1,5 +1,9 @@
 package com.e.recolect_admin.presentacion;
 
+import com.e.recolect_admin.modelo.UsuarioPojo;
+
+import java.util.ArrayList;
+
 public interface Almacen {
     interface Usuarios{
         void guardarRegistros();
@@ -10,15 +14,15 @@ public interface Almacen {
 
         void guardarRegistrados();
 
-        void guardarIncPorUsuario();
+        void guardarIncPorUsuario(ArrayList<UsuarioPojo> listaUsuarioPojos);
     }
     interface Incidencias{
         void guardarMes(int[] cantidadIncMes);
 
-        void guardarTipo();
+        void guardarTipo(int[] cantidadIncTipo);
 
-        void guardarEnProceso();
+        void guardarEstado(int[] cantidadIncEstado);
 
-        void guardarTerminado();
+        void guardarCantidadTotal(int cantidad);
     }
 }
