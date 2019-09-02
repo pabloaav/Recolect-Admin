@@ -18,9 +18,9 @@
     <string name="action_settings">Opciones</string>
 
     <!--Menu Navigation Drawer-->
-    <string name="menu_gestionar_inc">Gestionar Incidencias</string>
+    <string name="menu_gestionar_inc">Administrar Incidencias</string>
     <string name="menu_gestionar_ecopuntos">Administrar Eco Puntos</string>
-    <string name="menu_gestionar_admin">Gestionar Administradores</string>
+    <string name="menu_gestionar_info">Administrar Info Útil</string>
 
     <string name="titulo_reportes">Reportes</string>
     <string name="menu_reporte_usu">Reportes de Usuarios </string>
