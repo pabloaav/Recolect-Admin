@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         Reportes reportes = new Reportes(dbRecolectarRoot, this);
-        reportes.cantidadTotal();
+        reportes.cantidadTerminado();
     }
 
     //endregion

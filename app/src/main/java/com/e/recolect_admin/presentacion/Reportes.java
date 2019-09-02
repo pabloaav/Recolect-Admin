@@ -66,8 +66,8 @@ public class Reportes implements Consulta.Incidencia, Consulta.Usuario {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snap) {
-                Integer total = snap.getValue(Integer.class);
-                Toast.makeText(contexto, "Total es: " + total, Toast.LENGTH_SHORT).show();
+                Integer enProceso = snap.getValue(Integer.class);
+//                Toast.makeText(contexto, "Total en proceso es: " + enProceso, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -83,8 +83,8 @@ public class Reportes implements Consulta.Incidencia, Consulta.Usuario {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snap) {
-                Integer total = snap.getValue(Integer.class);
-//                Toast.makeText(contexto, "Total es: " + total, Toast.LENGTH_SHORT).show();
+                Integer terminado = snap.getValue(Integer.class);
+                Toast.makeText(contexto, "Total es: " + terminado, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -101,7 +101,7 @@ public class Reportes implements Consulta.Incidencia, Consulta.Usuario {
             @Override
             public void onDataChange(@NonNull DataSnapshot snap) {
                 Integer total = snap.getValue(Integer.class);
-                Toast.makeText(contexto, "Total es: " + total, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(contexto, "Total es: " + total, Toast.LENGTH_SHORT).show();
             }
 
             @Override
