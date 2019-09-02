@@ -184,10 +184,17 @@ public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<Adaptador
          *
          * @param itemView: Es el Cardview donde estan los elementos que vamos a asociar con los datos traidos de Firebase
          */
-        public IncidenciasViewHolder(@NonNull View itemView) {
+        public IncidenciasViewHolder(@NonNull final View itemView) {
             super(itemView);
             //Cada elemento del view (los cardview de incidencias) debe ser clicable
             itemView.setOnClickListener(this);
+//            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//                    Toast.makeText(mContext, "Presionando el boton", Toast.LENGTH_SHORT).show();
+//                    return false;
+//                }
+//            });
 
             //Aqui en el constructor, asociamos los valores de la incidencia tomados del cardview a sus atributos, declarados mas arriba, luego de la firma de la Clase Inner IncidenciasViewHolder
             imagen = itemView.findViewById(R.id.cv_imagen);
