@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.e.recolect_admin.fragmentos.GestionarEcopuntoFragment;
 import com.e.recolect_admin.fragmentos.GestionarIncidenciaFragment;
+import com.e.recolect_admin.fragmentos.InfoReciclajeFragment;
 import com.e.recolect_admin.fragmentos.ReporteIncidenciaFragment;
 import com.e.recolect_admin.fragmentos.ReporteUsuarioFragment;
 import com.e.recolect_admin.presentacion.Estadisticas;
@@ -34,7 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ReporteUsuarioFragment.OnFragmentInteractionListener, GestionarIncidenciaFragment.OnFragmentInteractionListener, GestionarEcopuntoFragment.OnFragmentInteractionListener, ReporteIncidenciaFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ReporteUsuarioFragment.OnFragmentInteractionListener, GestionarIncidenciaFragment.OnFragmentInteractionListener, GestionarEcopuntoFragment.OnFragmentInteractionListener, ReporteIncidenciaFragment.OnFragmentInteractionListener, InfoReciclajeFragment.OnFragmentInteractionListener {
 
     //region Atributos
     private FirebaseAuth firebaseAuth;
@@ -134,8 +135,12 @@ public class MainActivity extends AppCompatActivity
             miFragment = new ReporteIncidenciaFragment();
             fragmentSeleccionado = true;
         } else if (id == R.id.reporte_usuarios) {
-            //Se reemplaza contenido principal por fragmento reporte incidencias
+            //Se reemplaza contenido principal por fragmento reporte usuarios
             miFragment = new ReporteUsuarioFragment();
+            fragmentSeleccionado = true;
+        }else {
+            //Se reemplaza contenido principal por fragmento info reciclaje
+            miFragment = new InfoReciclajeFragment();
             fragmentSeleccionado = true;
         }
 

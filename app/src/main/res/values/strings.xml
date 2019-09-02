@@ -36,7 +36,14 @@
     <string name="titulo_fragmento_incidencias">Administrar Incidencias</string>
     <string name="titulo_reporte_ecopuntos">Administrar Ecopuntos Fragment</string>
 
-    <string-array name = "opciones">
+    <string name="tv_ingrese_datos">Ingrese los Datos del Eco Punto:</string>
+
+    <!--Administrar Eco Puntos-->
+    <string name="tv_nombre_ecop">Nombre Eco Punto:</string>
+    <string name="tv_ubicacion_ecop">Ubicación Eco Punto:</string>
+    <string name="tv_descripcion_ecop">Descripción Eco Punto:</string>
+    <string name="bt_agregar_ecop">Añadir Eco Punto</string>
+    <string-array name="opciones">
         <item>Buscar incidencias por:</item>
         <item>Tipo Domiciliario</item>
         <item>Tipo Chatarra</item>
@@ -46,13 +53,6 @@
         <item>Estado En Proceso</item>
         <item>Estado Terminado</item>
     </string-array>
-
-    <!--Administrar Eco Puntos-->
-    <string name="tv_ingrese_datos">Ingrese los Datos del Eco Punto:</string>
-    <string name="tv_nombre_ecop">Nombre Eco Punto:</string>
-    <string name="tv_ubicacion_ecop">Ubicación Eco Punto:</string>
-    <string name="tv_descripcion_ecop">Descripción Eco Punto:</string>
-    <string name="bt_agregar_ecop">Añadir Eco Punto</string>
 
 
 </resources>
