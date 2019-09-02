@@ -7,13 +7,7 @@ import java.util.ArrayList;
 
 public interface Busqueda {
     interface Usuario {
-        void cantidadRegistros();
-
-        void cantidadUsos();
-
-        void cantidadLogins();
-
-        void cantidadRegistrados();
+        void cantidadRegistrados(ArrayList<UsuarioPojo> listaUsuarioPojos);
 
         void cantIncPorUsuario(ArrayList<UsuarioPojo> listaUsuarioPojos);
     }

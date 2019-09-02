@@ -6,13 +6,7 @@ import java.util.ArrayList;
 
 public interface Almacen {
     interface Usuarios{
-        void guardarRegistros();
-
-        void guardarUsos();
-
-        void guardarLogins();
-
-        void guardarRegistrados();
+        void guardarRegistrados(int size);
 
         void guardarIncPorUsuario(ArrayList<UsuarioPojo> listaUsuarioPojos);
     }

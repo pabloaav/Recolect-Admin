@@ -106,6 +106,7 @@ public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia, Alma
                     }
                     //Se arman vectores de estadisticas con datos de usuarios
                     cantIncPorUsuario(listaUsuarioPojos);
+                    cantidadRegistrados(listaUsuarioPojos);
                 }
             }
 
@@ -118,27 +119,9 @@ public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia, Alma
 
     //region Busqueda Usuarios
 
-    /**
-     * Buscar la cantidadIncMes de cuentas de usuarios que se crean
-     */
     @Override
-    public void cantidadRegistros() {
-
-    }
-
-    @Override
-    public void cantidadUsos() {
-
-    }
-
-    @Override
-    public void cantidadLogins() {
-
-    }
-
-    @Override
-    public void cantidadRegistrados() {
-
+    public void cantidadRegistrados(ArrayList<UsuarioPojo> lista) {
+        guardarRegistrados(lista.size());
     }
 
     @Override
@@ -299,28 +282,14 @@ public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia, Alma
 
     //region Almacen Usuarios
     @Override
-    public void guardarRegistros() {
-
-    }
-
-    @Override
-    public void guardarUsos() {
-
-    }
-
-    @Override
-    public void guardarLogins() {
-
-    }
-
-    @Override
-    public void guardarRegistrados() {
-
+    public void guardarRegistrados(int cantidadRegistrados) {
+        DatabaseReference refUsuarios = dbRoot.child("Estadisticas/Usuarios/registrados");
+        refUsuarios.setValue(cantidadRegistrados);
     }
 
     @Override
     public void guardarIncPorUsuario(ArrayList<UsuarioPojo> lista) {
-        DatabaseReference refUsuarios = dbRoot.child("Estadisticas/Usuarios");
+        DatabaseReference refUsuarios = dbRoot.child("Estadisticas/Usuarios").child("usuarios");
         for (UsuarioPojo user : lista) {
             //Obtenemos la clave de usuario o userId
             String userId = user.getIdUsuario();
