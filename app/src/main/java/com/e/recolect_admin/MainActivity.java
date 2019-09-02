@@ -21,6 +21,7 @@ import com.e.recolect_admin.fragmentos.GestionarIncidenciaFragment;
 import com.e.recolect_admin.fragmentos.ReporteIncidenciaFragment;
 import com.e.recolect_admin.fragmentos.ReporteUsuarioFragment;
 import com.e.recolect_admin.presentacion.Estadisticas;
+import com.e.recolect_admin.presentacion.Reportes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -206,7 +207,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-
+        Reportes reportes = new Reportes(dbRecolectarRoot, this);
+        reportes.cantidadTotal();
     }
 
     //endregion
