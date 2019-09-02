@@ -13,10 +13,10 @@
             android:icon="@drawable/ic_gestion_ecop"
             android:title="@string/menu_gestionar_ecopuntos" />
 
-        <!--<item
+        <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_gestion_admins"
-            android:title="@string/menu_gestionar_admin"/>-->
+            android:icon="@drawable/ic_gest_info"
+            android:title="@string/menu_gestionar_info"/>
 
        <!-- <item
             android:id="@+id/nav_tools"
