@@ -15,9 +15,7 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
-import com.e.recolect_admin.MainActivity;
 import com.e.recolect_admin.R;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -157,7 +155,7 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
         pieIncidencias.setExtraOffsets(5, 10, 5, 5);
         pieIncidencias.setDragDecelerationFrictionCoef(0.95f);
 
-        pieIncidencias.setCenterText(generateCenterSpannableText());
+        pieIncidencias.setCenterText(generarCirculoBlanco());
 
         pieIncidencias.setDrawHoleEnabled(true);
         pieIncidencias.setHoleColor(Color.WHITE);
@@ -195,7 +193,7 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
         return vista;
     }
 
-    private SpannableString generateCenterSpannableText() {
+    private SpannableString generarCirculoBlanco() {
 
         SpannableString s = new SpannableString("Recolect-Admin\nIncidencias por Tipo");
         s.setSpan(new RelativeSizeSpan(1.7f), 0, 14, 0);
