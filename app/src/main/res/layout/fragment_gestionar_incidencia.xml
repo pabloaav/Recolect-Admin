@@ -15,7 +15,6 @@
         android:fontFamily="@font/roboto_mono_bold_italic"
         android:hint="@string/titulo_fragmento_incidencias"
         android:textColorHint="@color/colorBotonBlanco"
-
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -23,7 +22,7 @@
         android:id="@+id/sp_opciones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+
         android:backgroundTint="@color/colorBotonBlanco" />
 
     <androidx.recyclerview.widget.RecyclerView
