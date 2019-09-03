@@ -29,6 +29,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
@@ -216,7 +217,7 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
         l.setXEntrySpace(7f);
         l.setYEntrySpace(0f);
         l.setYOffset(0f);
-        l.setTextSize(12f);
+        l.setTextSize(14f);
     }
 
     private SpannableString generarCirucloBlanco() {
@@ -303,7 +304,7 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
         //dataSet.setSelectionShift(0f);
         cargando.setVisibility(View.INVISIBLE);
         PieData data = new PieData(dataSet);
-        data.setValueFormatter(new PercentFormatter(chart));
+        data.setValueFormatter(new DefaultValueFormatter(0));
         data.setValueTextSize(14f);
         data.setValueTextColor(Color.BLACK);
         data.setValueTypeface(tfLight);
