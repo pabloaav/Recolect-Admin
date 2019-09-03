@@ -17,4 +17,9 @@
     <color name="color2">#306844</color>
     <color name="color3">#1e453e</color>
     <color name="colorPruebaFondoFarg">#009867</color>
+    <color name="vidrio">#2B8011</color>
+    <color name="industrial">#8f8f8f</color>
+    <color name="chatarra">#c23514</color>
+    <color name="domiciliario">#4079b2</color>
+
 </resources>

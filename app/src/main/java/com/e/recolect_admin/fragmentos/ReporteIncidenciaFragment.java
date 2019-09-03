@@ -2,33 +2,35 @@ package com.e.recolect_admin.fragmentos;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
+import com.e.recolect_admin.ColoresBarras;
+import com.e.recolect_admin.MyValueFormatter;
 import com.e.recolect_admin.R;
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.StackedValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.MPPointF;
 
 import java.util.ArrayList;
 
@@ -56,9 +58,16 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
     //endregion
 
     //region ATRIBUTOS
-    private PieChart pieIncidencias;
-    protected final String[] parties = new String[]{"Vidrio", "Domiciliario", "Industrial", "Chatarra"};
-    private int[] sale = new int[]{25, 20, 38, 10, 15};
+
+    private BarChart chart;
+    protected final String[] tipos = new String[]{"Vidrio", "Industrial", "Chatarra", "Domiciliario"};
+    //Eje X
+    private String[] meses = new String[]{"ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"};
+
+    private int[] cantIncTipos = new int[]{50, 24, 74, 15};
+    //Colors
+    private int[] colores = new int[]{Color.GREEN, Color.GRAY, Color.RED, Color.BLUE};
+
     //endregion
 
     //region Metodos por default
@@ -145,117 +154,139 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_reporte_incidencia, container, false);
+        //Link del recurso barChart de Incidencias
+        chart = vista.findViewById(R.id.inc_barras);
 
-        //Link del recurso pieChart de Incidencias
-        pieIncidencias = vista.findViewById(R.id.graf_pie_incidencias);
-        pieIncidencias.setUsePercentValues(true);
-        pieIncidencias.getDescription().setEnabled(false);
-        pieIncidencias.setExtraOffsets(5, 10, 5, 5);
-        pieIncidencias.setDragDecelerationFrictionCoef(0.95f);
+        getActivity().setTitle("Reporte de Incidencias");
 
-        pieIncidencias.setCenterText(generarCirculoBlanco());
+        chart.setOnChartValueSelectedListener(this);
 
-        pieIncidencias.setDrawHoleEnabled(true);
-        pieIncidencias.setHoleColor(Color.WHITE);
+        chart.getDescription().setEnabled(false);
 
-        pieIncidencias.setTransparentCircleColor(Color.WHITE);
-        pieIncidencias.setTransparentCircleAlpha(110);
+        // if more than 60 entries are displayed in the chart, no values will be
+        // drawn
+        chart.setMaxVisibleValueCount(40);
 
-        pieIncidencias.setHoleRadius(58f);
-        pieIncidencias.setTransparentCircleRadius(61f);
+        // scaling can now only be done on x- and y-axis separately
+        chart.setPinchZoom(false);
 
-        pieIncidencias.setDrawCenterText(true);
+        chart.setDrawGridBackground(false);
+        chart.setDrawBarShadow(false);
 
-        pieIncidencias.setRotationAngle(0);
-        // enable rotation of the chart by touch
-        pieIncidencias.setRotationEnabled(true);
-        pieIncidencias.setHighlightPerTapEnabled(true);
-        pieIncidencias.animateY(1400, Easing.EaseInOutQuad);
+        chart.setDrawValueAboveBar(true);
+        chart.setHighlightFullBarEnabled(true);
 
-        Legend l = pieIncidencias.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(0f);
-        l.setYOffset(0f);
+        // change the position of the y-labels
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setValueFormatter(new MyValueFormatter("I"));
+        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        chart.getAxisRight().setEnabled(false);
 
-        // entry label styling
-        pieIncidencias.setEntryLabelColor(Color.WHITE);
-        pieIncidencias.setEntryLabelTextSize(12f);
-        pieIncidencias.animateY(1400, Easing.EaseInOutQuad);
-        // add a selection listener
-        pieIncidencias.setOnChartValueSelectedListener(this);
+        XAxis xLabels = chart.getXAxis();
+        xLabels.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xLabels.setGranularityEnabled(true);
+        xLabels.setValueFormatter(new IndexAxisValueFormatter(meses));
+
+        try {
+            crearLeyenda();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         setData();
+        chart.animateY(1400, Easing.EaseInOutQuad);
         return vista;
     }
 
-    private SpannableString generarCirculoBlanco() {
+    private void crearLeyenda() {
+        Legend l = chart.getLegend();
+        l.setForm(Legend.LegendForm.CIRCLE);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+        l.setFormSize(6f);
+        l.setFormToTextSpace(2f);
+        l.setXEntrySpace(2f);
+        l.setTextSize(16f);
 
-        SpannableString s = new SpannableString("Recolect-Admin\nIncidencias por Tipo");
-        s.setSpan(new RelativeSizeSpan(1.7f), 0, 14, 0);
-        s.setSpan(new StyleSpan(Typeface.NORMAL), 14, s.length() - 15, 0);
-        s.setSpan(new ForegroundColorSpan(Color.GRAY), 14, s.length() - 15, 0);
-        s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 14, s.length(), 0);
-        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 20, s.length(), 0);
-        return s;
+        //Aca le puedo poner que cargue los meses
+        ArrayList<LegendEntry> entries = new ArrayList<>();
+        for (int i = 0; i < tipos.length; i++) {
+            LegendEntry entry = new LegendEntry();
+            entry.label = tipos[i];
+            //Como los tipos de incidencias y la cantidad de colores son las mismas...:
+            entry.formColor = colores[i];
+            entries.add(entry);
+        }
+        l.setCustom(entries);
     }
 
     private void setData() {
 
+        //region Atributos
+        ArrayList<BarEntry> values = new ArrayList<>();
+        BarDataSet set1;
+        //endregion
 
-        PieDataSet dataSet = new PieDataSet(getPieEntries(), "Tipos de Incidencia");
+        float[] floatArray = new float[cantIncTipos.length];
+        for (int i = 0; i < cantIncTipos.length; i++) {
+            floatArray[i] = (float) cantIncTipos[i];
+        }
+        //El arrayList values contiene objetos tipo BarEntry que son los valores que queremos stackear en cada barra
+//        for (int i = 0; i < meses.length; i++) {
+//            values.add(new BarEntry(i, floatArray));
+//        }
 
-        dataSet.setDrawIcons(false);
+        for (int i = 0; i < 12; i++) {
 
-        dataSet.setSliceSpace(3f);
-        dataSet.setIconsOffset(new MPPointF(0, 40));
-        dataSet.setSelectionShift(5f);
+            float val1 = (float) (Math.random() * 10) + 10 / 3;
+            float val2 = (float) (Math.random() * 10) + 10 / 3;
+            float val3 = (float) (Math.random() * 10) + 10 / 3;
+            float val4 = (float) (Math.random() * 10) + 10 / 3;
+            values.add(new BarEntry(
+                    i,
+                    new float[]{val1, val2, val3, val4}));
+        }
 
-        // add a lot of colors
+        if (chart.getData() != null &&
+                chart.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) chart.getData().getDataSetByIndex(0);
+            set1.setValues(values);
+            chart.getData().notifyDataChanged();
+            chart.notifyDataSetChanged();
+        } else {
+            set1 = new BarDataSet(values, "Cantidad de Incidencias por tipo y mes");
+            set1.setDrawIcons(false);
+            set1.setColors(getColors());
+            set1.setStackLabels(new String[]{"Vidrio", "Industrial", "Chatarra", "Domiciliario"});
+            set1.setBarBorderWidth(0.3f);
+            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+            dataSets.add(set1);
 
-        ArrayList<Integer> colors = new ArrayList<>();
+            BarData data = new BarData(dataSets);
+            data.setValueFormatter(new StackedValueFormatter(true, "", 1));
+            data.setValueTextColor(Color.BLACK);
 
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
+            chart.setData(data);
+        }
 
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
+        chart.setFitBars(true);
+        chart.invalidate();
 
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
-
-        dataSet.setColors(colors);
-        //dataSet.setSelectionShift(0f);
-
-        PieData data = new PieData(dataSet);
-        data.setValueFormatter(new PercentFormatter(pieIncidencias));
-        data.setValueTextSize(18f);
-        data.setValueTextColor(Color.WHITE);
-        pieIncidencias.setData(data);
-
-        // undo all highlights
-        pieIncidencias.highlightValues(null);
-
-        pieIncidencias.invalidate();
     }
 
-    private ArrayList<PieEntry> getPieEntries() {
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        for (int i = 0; i < sale.length; i++)
-            entries.add(new PieEntry(sale[i]));
-        return entries;
+    private int[] getColors() {
+        // have as many colors as stack-values per entry
+        int[] colors = new int[4];
+
+        System.arraycopy(ColoresBarras.MATERIAL_COLORS, 0, colors, 0, 4);
+
+        return colors;
     }
+
     //endregion
 }
