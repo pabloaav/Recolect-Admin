@@ -213,7 +213,6 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
         l.setXEntrySpace(2f);
         l.setTextSize(16f);
 
-        //Aca le puedo poner que cargue los meses
         ArrayList<LegendEntry> entries = new ArrayList<>();
         for (int i = 0; i < tipos.length; i++) {
             LegendEntry entry = new LegendEntry();

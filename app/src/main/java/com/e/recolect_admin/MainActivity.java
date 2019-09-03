@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity
             //Se reemplaza contenido principal por fragmento reporte usuarios
             miFragment = new ReporteUsuarioFragment();
             fragmentSeleccionado = true;
-        }else {
+        } else {
             //Se reemplaza contenido principal por fragmento info reciclaje
             miFragment = new InfoReciclajeFragment();
             fragmentSeleccionado = true;
