@@ -1,5 +1,8 @@
 package com.e.recolect_admin;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -139,8 +142,25 @@ public class MainActivity extends AppCompatActivity
             //Se reemplaza contenido principal por fragmento reporte usuarios
             miFragment = new ReporteUsuarioFragment();
             fragmentSeleccionado = true;
-        } else {
-            //Se reemplaza contenido principal por fragmento info reciclaje
+        } else if (id == R.id.cerrar_sesion) {
+            //cerrar sesion
+            AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
+            dialogo1.setTitle("Cerrar Sesión ?");
+            dialogo1.setMessage("Estás seguro de que quieres cerrar la sesión ?");
+            dialogo1.setCancelable(false);
+            dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialogo1, int id) {
+                    aceptarCerrarSesion();
+                }
+            });
+            dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialogo1, int id) {
+                    dialogo1.dismiss();
+                }
+            });
+            dialogo1.show();
+
+        } else {//Se reemplaza contenido principal por fragmento info reciclaje
             miFragment = new InfoReciclajeFragment();
             fragmentSeleccionado = true;
         }
@@ -215,6 +235,28 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void aceptarCerrarSesion() {
+        FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() == null) {
+                    //Do anything here which needs to be done after signout is complete
+                    Intent login = new Intent(MainActivity.this, LoginAdmin.class);
+                    login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(login);
+                    finish();
+                } else {
+                }
+            }
+        };
+
+        //Init and attach
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.addAuthStateListener(authStateListener);
+
+        //Call signOut()
+        mAuth.signOut();
+    }
     //endregion
 
 }

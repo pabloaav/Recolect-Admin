@@ -34,9 +34,10 @@
                 android:icon="@drawable/ic_reportes2"
                 android:title="@string/menu_reporte_inc"/>
             <item
-                android:id="@+id/reporte_usuarios"
-                android:icon="@drawable/ic_reportes"
-                android:title="@string/menu_reporte_usu" />
+            android:id="@+id/reporte_usuarios"
+            android:icon="@drawable/ic_reportes"
+            android:title="@string/menu_reporte_usu" />
+
         </menu>
     </item>
 
