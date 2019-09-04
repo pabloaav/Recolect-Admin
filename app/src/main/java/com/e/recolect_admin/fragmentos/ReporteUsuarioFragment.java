@@ -18,11 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.e.recolect_admin.MyValueFormatter;
 import com.e.recolect_admin.R;
-import com.e.recolect_admin.presentacion.Consulta;
 import com.e.recolect_admin.presentacion.EstadisticasUsuarioPojo;
-import com.e.recolect_admin.presentacion.Reportes;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -31,8 +28,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.DefaultValueFormatter;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
@@ -69,7 +64,7 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
     //endregion
 
     //region Atributos
-    PieChart chart;
+    PieChart chart, chart2;
     private Typeface tfRegular;
     private Typeface tfLight;
     private String[] nombreCategorias = new String[]{"Logins", "Registrados", "Registros", "Usos"};
@@ -164,6 +159,7 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
         View vista = inflater.inflate(R.layout.fragment_reporte_usuario, container, false);
         //Link del recurso barChart de Incidencias
         chart = vista.findViewById(R.id.usuarios_piechart);
+        chart2 = vista.findViewById(R.id.usuarios_piechart2);
         cargando = vista.findViewById(R.id.tv_cargando_datos);
         getActivity().setTitle("Reporte de Usuarios");
 
@@ -206,6 +202,7 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
         // chart.spin(2000, 0, 360);
 
         setEstadisticasUsuarios();
+
         return vista;
     }
 
@@ -300,6 +297,7 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
         colors.add(ColorTemplate.getHoloBlue());
 
         dataSet.setColors(colors);
+
         //dataSet.setSelectionShift(0f);
         cargando.setVisibility(View.INVISIBLE);
         PieData data = new PieData(dataSet);
