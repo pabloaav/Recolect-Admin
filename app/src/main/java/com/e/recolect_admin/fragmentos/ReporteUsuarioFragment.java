@@ -159,7 +159,7 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
         View vista = inflater.inflate(R.layout.fragment_reporte_usuario, container, false);
         //Link del recurso barChart de Incidencias
         chart = vista.findViewById(R.id.usuarios_piechart);
-        chart2 = vista.findViewById(R.id.usuarios_piechart2);
+//        chart2 = vista.findViewById(R.id.usuarios_piechart2);
         cargando = vista.findViewById(R.id.tv_cargando_datos);
         getActivity().setTitle("Reporte de Usuarios");
 
