@@ -19,12 +19,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.e.recolect_admin.R;
-import com.e.recolect_admin.presentacion.Consulta;
 import com.e.recolect_admin.presentacion.EstadisticasUsuarioPojo;
-import com.e.recolect_admin.presentacion.Reportes;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -65,7 +64,7 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
     //endregion
 
     //region Atributos
-    PieChart chart;
+    PieChart chart, chart2;
     private Typeface tfRegular;
     private Typeface tfLight;
     private String[] nombreCategorias = new String[]{"Logins", "Registrados", "Registros", "Usos"};
@@ -160,6 +159,7 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
         View vista = inflater.inflate(R.layout.fragment_reporte_usuario, container, false);
         //Link del recurso barChart de Incidencias
         chart = vista.findViewById(R.id.usuarios_piechart);
+//        chart2 = vista.findViewById(R.id.usuarios_piechart2);
         cargando = vista.findViewById(R.id.tv_cargando_datos);
         getActivity().setTitle("Reporte de Usuarios");
 
@@ -194,8 +194,6 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
         // add a selection listener
         chart.setOnChartValueSelectedListener(this);
 
-        crearLeyenda();
-
         // entry label styling
         chart.setEntryLabelColor(Color.BLACK);
         chart.setEntryLabelTypeface(tfRegular);
@@ -204,19 +202,8 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
         // chart.spin(2000, 0, 360);
 
         setEstadisticasUsuarios();
-        return vista;
-    }
 
-    private void crearLeyenda() {
-        Legend l = chart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(0f);
-        l.setYOffset(0f);
-        l.setTextSize(12f);
+        return vista;
     }
 
     private SpannableString generarCirucloBlanco() {
@@ -270,6 +257,16 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
         for (int i = 0; i < cantCategorias.length; i++) {
             entradasPie.add(new PieEntry(cantCategorias[i], nombreCategorias[i]));
         }
+        Legend l = chart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setDrawInside(false);
+        l.setXEntrySpace(7f);
+        l.setYEntrySpace(0f);
+        l.setYOffset(0f);
+        l.setTextSize(14f);
+
         PieDataSet dataSet = new PieDataSet(entradasPie, "");
 
         dataSet.setDrawIcons(false);
@@ -300,6 +297,7 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
         colors.add(ColorTemplate.getHoloBlue());
 
         dataSet.setColors(colors);
+
         //dataSet.setSelectionShift(0f);
         cargando.setVisibility(View.INVISIBLE);
         PieData data = new PieData(dataSet);
