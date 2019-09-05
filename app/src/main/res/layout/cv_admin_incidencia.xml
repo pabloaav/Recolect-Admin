@@ -8,7 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="227dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
@@ -26,10 +26,10 @@
                 android:id="@+id/cv_imagen"
                 android:layout_width="100dp"
                 android:layout_height="150dp"
-                android:layout_gravity="end"
-                android:layout_marginTop="30dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="40dp"
                 android:scaleType="fitXY"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -73,7 +73,7 @@
 
         <LinearLayout
             android:layout_width="250dp"
-            android:layout_height="195dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="5sp"
             android:layout_marginTop="30dp"
             android:orientation="vertical">
@@ -235,6 +235,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
                     android:fontFamily="@font/roboto_mono_bold_italic"
                     android:text="Estado: "
                     android:textColor="@color/colorFondoNegro"
@@ -245,6 +246,7 @@
                     android:id="@+id/cv_estado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:fontFamily="@font/roboto_mono_bold_italic"
                     android:text="estado de la incidencia"
                     android:textColor="@color/colorFondoNegro"
