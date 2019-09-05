@@ -15,7 +15,7 @@
     <string name="nav_header_title">Pablo Aguirre</string>
     <string name="nav_header_subtitle">Adminstrador en Recolect-Admin</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Opciones</string>
+    <string name="action_settings">Acerca de Recolect-Admin</string>
 
     <!--Menu Navigation Drawer-->
     <string name="menu_gestionar_inc">Administrar Incidencias</string>
@@ -25,6 +25,7 @@
     <string name="titulo_reportes">Reportes</string>
     <string name="menu_reporte_usu">Reportes de Usuarios </string>
     <string name="menu_reporte_inc">Reportes de Incidencias</string>
+    <string name="cerrar_sesion">Cerrar Sesión</string>
 
     <string name="tv_bienvenida">Presione Menú o Deslice Para Empezar</string>
 

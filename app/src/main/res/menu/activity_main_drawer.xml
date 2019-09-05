@@ -15,7 +15,7 @@
 
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_gest_info"
+            android:icon="@drawable/icon_chrome_128x"
             android:title="@string/menu_gestionar_info"/>
 
        <!-- <item
@@ -37,6 +37,11 @@
             android:id="@+id/reporte_usuarios"
             android:icon="@drawable/ic_reportes"
             android:title="@string/menu_reporte_usu" />
+
+            <item
+                android:id="@+id/cerrar_sesion"
+                android:icon="@drawable/ic_cerrar_sesion_128x"
+                android:title="Cerrar Sesión"/>
 
         </menu>
     </item>

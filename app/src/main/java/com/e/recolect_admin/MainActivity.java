@@ -251,11 +251,11 @@ public class MainActivity extends AppCompatActivity
         };
 
         //Init and attach
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.addAuthStateListener(authStateListener);
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.addAuthStateListener(authStateListener);
 
         //Call signOut()
-        mAuth.signOut();
+        firebaseAuth.signOut();
     }
     //endregion
 
