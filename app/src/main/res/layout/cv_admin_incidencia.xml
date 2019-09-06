@@ -202,17 +202,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/descripcion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:fontFamily="@font/roboto_mono_bold_italic"
-                    android:text="Descripcion: "
-                    android:textColor="@color/colorFondoNegro"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
                     android:id="@+id/cv_descripcion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

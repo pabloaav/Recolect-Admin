@@ -68,7 +68,9 @@ public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<Adaptador
         //Quitamos los segundos a la fecha y hora de la incidencia
         String fechaSinSegundos = quitarSegundos(incidencia.getFecha());
         incidenciasViewHolder.fecha.setText(fechaSinSegundos);
-        incidenciasViewHolder.descripcion.setText(incidencia.getDescripcion());
+        //Agregamos la palabra "Descripción: " a la descripcion en tiempo de ejecucion
+        String descripcion = "Descripción:  " + incidencia.getDescripcion();
+        incidenciasViewHolder.descripcion.setText(descripcion);
 //        incidenciasViewHolder.direccion.setText(incidencia.getDireccion());
         //Quitamos el state (Estado=Provincia) de la cadena de ubicacion
         String cadenaSinProvincia = quitarProvincia(incidencia.getCadenaUbicacion());
