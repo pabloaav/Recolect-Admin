@@ -68,6 +68,7 @@ public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia, Alma
                     cantidadMes(listaIncidenciaPojos);
                     cantidadTipo(listaIncidenciaPojos);
                     cantidadPorEstado(listaIncidenciaPojos);
+                    cantidadMesTipo(listaIncidenciaPojos);
                     cantidadTotal(count);
                 }
             }
@@ -181,6 +182,30 @@ public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia, Alma
     }
 
     @Override
+    public void cantidadMesTipo(ArrayList<IncidenciaPojo> lista) {
+        int[][] matrizMesYTipo = new int[12][4];
+        for (IncidenciaPojo inc : lista) {
+            int numeroDeMes = numeroDeMes(inc.getFecha());
+//            String nombreMes = obtenerNombreMes(numeroDeMes);
+            switch (inc.getTipo()) {
+                case "Vidrio":
+                    matrizMesYTipo[numeroDeMes][0]++;
+                    break;
+                case "Industrial":
+                    matrizMesYTipo[numeroDeMes][1]++;
+                    break;
+                case "Chatarra":
+                    matrizMesYTipo[numeroDeMes][2]++;
+                    break;
+                case "Domiciliario":
+                    matrizMesYTipo[numeroDeMes][3]++;
+                    break;
+            }
+        }
+        this.guardarMesTipo(matrizMesYTipo);
+    }
+
+    @Override
     public void cantidadTotal(int cuenta) {
         this.guardarCantidadTotal(cuenta);
     }
@@ -214,6 +239,50 @@ public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia, Alma
         }
 
         return mes;
+    }
+
+    private String obtenerNombreMes(int month) {
+        int mes = month + 1;
+        String nombreMes = "ago";
+        switch (mes) {
+            case 1:
+                nombreMes = "ene";
+                break;
+            case 2:
+                nombreMes = "feb";
+                break;
+            case 3:
+                nombreMes = "mar";
+                break;
+            case 4:
+                nombreMes = "abr";
+                break;
+            case 5:
+                nombreMes = "may";
+                break;
+            case 6:
+                nombreMes = "jun";
+                break;
+            case 7:
+                nombreMes = "jul";
+                break;
+            case 8:
+                nombreMes = "ago";
+                break;
+            case 9:
+                nombreMes = "sep";
+                break;
+            case 10:
+                nombreMes = "oct";
+                break;
+            case 11:
+                nombreMes = "nov";
+                break;
+            case 12:
+                nombreMes = "dic";
+                break;
+        }
+        return nombreMes;
     }
 
     private String leerEstadoIncidencia(Map<String, Boolean> p_estado) {
@@ -278,6 +347,22 @@ public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia, Alma
         refCantidad.setValue(cantidad);
     }
 
+    @Override
+    public void guardarMesTipo(int[][] matrizMesYTipo) {
+        DatabaseReference refMesesTipos = dbRoot.child("Estadisticas/Incidencias/mes_tipo");
+        Map<String, Integer> tipos = new HashMap<>();
+        String[] nombresTipos = new String[]{"Vidrio", "Industrial", "Chatarra", "Domiciliario"};
+        for (int i = 0; i < matrizMesYTipo.length; i++) {
+            //obtenemos el nombre del mes
+            String nombreMes = obtenerNombreMes(i);
+            DatabaseReference mes = refMesesTipos.child(nombreMes);
+            for (int j = 0; j < matrizMesYTipo[i].length; j++) {
+                tipos.put(nombresTipos[j], matrizMesYTipo[i][j]);
+            }
+            mes.setValue(tipos);
+        }
+    }
+
     //endregion
 
     //region Almacen Usuarios
@@ -293,7 +378,7 @@ public class Estadisticas implements Busqueda.Usuario, Busqueda.Incidencia, Alma
         for (UsuarioPojo user : lista) {
             //Obtenemos la clave de usuario o userId
             String userId = user.getIdUsuario();
-            Map<String,Object> cantidadPorUsuario = new HashMap<>();
+            Map<String, Object> cantidadPorUsuario = new HashMap<>();
             cantidadPorUsuario.put("nomape", user.toString());
             cantidadPorUsuario.put("email", user.getEmail());
             cantidadPorUsuario.put("cantInc", user.getCantidad());
