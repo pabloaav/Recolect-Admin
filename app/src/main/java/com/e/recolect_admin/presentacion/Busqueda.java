@@ -19,6 +19,8 @@ public interface Busqueda {
 
         void cantidadPorEstado(ArrayList<IncidenciaPojo> listaIncidenciaPojos);
 
+        void cantidadMesTipo(ArrayList<IncidenciaPojo> listaIncidenciaPojos);
+
         void cantidadTotal(int count);
     }
 }

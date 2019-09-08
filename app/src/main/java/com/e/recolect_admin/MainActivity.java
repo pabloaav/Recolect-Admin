@@ -97,8 +97,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        ReporteUsuarioFragment miFragment = new ReporteUsuarioFragment();
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenido_principal, miFragment).commit();
         return true;
     }
 

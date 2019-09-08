@@ -112,6 +112,16 @@ public class Reportes implements Consulta.Incidencia, Consulta.Usuario {
             }
         });
     }
+
+    @Override
+    public void cantidadMesTipoPrimerSemestre() {
+
+    }
+
+    @Override
+    public void cantidadMesTipoSegundoSemestre() {
+
+    }
     //endregion
 
     //region Consultas sobre Usuarios
