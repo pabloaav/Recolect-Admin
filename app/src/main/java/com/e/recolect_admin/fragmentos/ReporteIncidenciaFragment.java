@@ -5,16 +5,20 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 import com.e.recolect_admin.ColoresBarras;
 import com.e.recolect_admin.MyValueFormatter;
 import com.e.recolect_admin.R;
+import com.e.recolect_admin.presentacion.MesTipoPojo;
+import com.e.recolect_admin.presentacion.TiposPojo;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -30,9 +34,14 @@ import com.github.mikephil.charting.formatter.StackedValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,10 +72,14 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
     protected final String[] tipos = new String[]{"Vidrio", "Industrial", "Chatarra", "Domiciliario"};
     //Eje X
     private String[] meses = new String[]{"ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"};
+    private String[] julioDiciembre = new String[]{"jul", "ago", "sep", "oct", "nov", "dic"};
+    private String[] eneroJunio = new String[]{"ene", "feb", "mar", "abr", "may", "jun"};
 
-    private int[] cantIncTipos = new int[]{50, 24, 74, 15};
     //Colors
     private int[] colores = new int[]{Color.GREEN, Color.GRAY, Color.RED, Color.BLUE};
+    private FirebaseDatabase dbRecolectar;
+    private DatabaseReference dbRecolectarRoot;
+    private ToggleButton boton_semestre;
 
     //endregion
 
@@ -148,7 +161,8 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        dbRecolectar = FirebaseDatabase.getInstance();
+        dbRecolectarRoot = dbRecolectar.getReference();
     }
 
     @Override
@@ -159,7 +173,7 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
         View vista = inflater.inflate(R.layout.fragment_reporte_incidencia, container, false);
         //Link del recurso barChart de Incidencias
         chart = vista.findViewById(R.id.inc_barras);
-
+        boton_semestre = vista.findViewById(R.id.btn_semestre);
         getActivity().setTitle("Reporte de Incidencias");
 
         chart.setOnChartValueSelectedListener(this);
@@ -185,20 +199,67 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
         chart.getAxisRight().setEnabled(false);
 
-        XAxis xLabels = chart.getXAxis();
-        xLabels.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xLabels.setGranularityEnabled(true);
-        xLabels.setValueFormatter(new IndexAxisValueFormatter(meses));
-
         try {
             crearLeyenda();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        setData();
-        chart.animateY(1400, Easing.EaseInOutQuad);
+        boton_semestre.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    setSegundoSemestre();
+                } else {
+                    // The toggle is disabled
+                    setPrimerSemestre();
+                }
+            }
+        });
+
+        if (boton_semestre.isChecked()) {
+            setSegundoSemestre();
+        } else {
+            setPrimerSemestre();
+        }
+
         return vista;
+    }
+
+    private void setPrimerSemestre() {
+        DatabaseReference ref = dbRecolectarRoot.child("Estadisticas/Incidencias/mes_tipo");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    MesTipoPojo mesTipo = dataSnapshot.getValue(MesTipoPojo.class);
+                    setData(mesTipo, 1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setSegundoSemestre() {
+        DatabaseReference ref = dbRecolectarRoot.child("Estadisticas/Incidencias/mes_tipo");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    MesTipoPojo mesTipo = dataSnapshot.getValue(MesTipoPojo.class);
+                    setData(mesTipo, 2);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void crearLeyenda() {
@@ -224,32 +285,56 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
         l.setCustom(entries);
     }
 
-    private void setData() {
+    private void setData(MesTipoPojo mesTipo, int semestre) {
 
         //region Atributos
         ArrayList<BarEntry> values = new ArrayList<>();
         BarDataSet set1;
+        ArrayList<TiposPojo> primerSemestre = mesTipo.getPrimerSemestre();
+        ArrayList<TiposPojo> segundoSemestre = mesTipo.getSegundoSemestre();
+        Random aleatorio = new Random(System.currentTimeMillis());
         //endregion
 
-        float[] floatArray = new float[cantIncTipos.length];
-        for (int i = 0; i < cantIncTipos.length; i++) {
-            floatArray[i] = (float) cantIncTipos[i];
+        XAxis xLabels = chart.getXAxis();
+        xLabels.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xLabels.setGranularityEnabled(true);
+
+        if (semestre == 1) {
+            int limiteSuperior = 20;
+            //creamos un lote de datos para los meses pasados al incio del proyecto Recolect-Ar
+            for (TiposPojo cantidadPorTipo : primerSemestre) {
+
+                float val1 = (float) aleatorio.nextInt(limiteSuperior);
+                float val2 = (float) aleatorio.nextInt(limiteSuperior);
+                float val3 = (float) aleatorio.nextInt(limiteSuperior);
+                float val4 = (float) aleatorio.nextInt(limiteSuperior);
+                values.add(new BarEntry(
+                        primerSemestre.indexOf(cantidadPorTipo),
+                        new float[]{val1, val2, val3, val4}));
+            }
+            xLabels.setValueFormatter(new IndexAxisValueFormatter(eneroJunio));
+        } else {
+            for (TiposPojo cantidadPorTipo : segundoSemestre) {
+                float val1 = (float) cantidadPorTipo.getVidrio();
+                float val2 = (float) cantidadPorTipo.getIndustrial();
+                float val3 = (float) cantidadPorTipo.getChatarra();
+                float val4 = (float) cantidadPorTipo.getDomiciliario();
+                values.add(new BarEntry(
+                        segundoSemestre.indexOf(cantidadPorTipo),
+                        new float[]{val1, val2, val3, val4}));
+            }
+            xLabels.setValueFormatter(new IndexAxisValueFormatter(julioDiciembre));
         }
-        //El arrayList values contiene objetos tipo BarEntry que son los valores que queremos stackear en cada barra
-//        for (int i = 0; i < meses.length; i++) {
-//            values.add(new BarEntry(i, floatArray));
+//        for (int i = 0; i < 12; i++) {
+//
+//            float val1 = (float) (Math.random() * 10) + 10 / 3;
+//            float val2 = (float) (Math.random() * 10) + 10 / 3;
+//            float val3 = (float) (Math.random() * 10) + 10 / 3;
+//            float val4 = (float) (Math.random() * 10) + 10 / 3;
+//            values.add(new BarEntry(
+//                    i,
+//                    new float[]{val1, val2, val3, val4}));
 //        }
-
-        for (int i = 0; i < 12; i++) {
-
-            float val1 = (float) (Math.random() * 10) + 10 / 3;
-            float val2 = (float) (Math.random() * 10) + 10 / 3;
-            float val3 = (float) (Math.random() * 10) + 10 / 3;
-            float val4 = (float) (Math.random() * 10) + 10 / 3;
-            values.add(new BarEntry(
-                    i,
-                    new float[]{val1, val2, val3, val4}));
-        }
 
         if (chart.getData() != null &&
                 chart.getData().getDataSetCount() > 0) {
@@ -267,14 +352,15 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
-            data.setValueFormatter(new StackedValueFormatter(true, "", 1));
+            data.setValueFormatter(new StackedValueFormatter(true, "", 0));
             data.setValueTextColor(Color.BLACK);
-
+            data.setValueTextSize(14f);
             chart.setData(data);
         }
 
         chart.setFitBars(true);
         chart.invalidate();
+        chart.animateY(1400, Easing.EaseInOutQuad);
 
     }
 

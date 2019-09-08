@@ -16,6 +16,10 @@ public interface Consulta {
         void cantidadTerminado();
 
         void cantidadTotal();
+
+        void cantidadMesTipoPrimerSemestre();
+
+        void cantidadMesTipoSegundoSemestre();
     }
 
     interface Usuario {

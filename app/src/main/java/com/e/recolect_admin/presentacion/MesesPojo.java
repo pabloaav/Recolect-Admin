@@ -1,7 +1,7 @@
 package com.e.recolect_admin.presentacion;
 
 class MesesPojo {
-    int ene, feb, mar, abr, nay, jun, jul, ago, sep, oct, nov, dic;
+    int ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic;
 
     public MesesPojo() {
     }
@@ -38,12 +38,12 @@ class MesesPojo {
         this.abr = abr;
     }
 
-    public int getNay() {
-        return nay;
+    public int getMay() {
+        return may;
     }
 
-    public void setNay(int nay) {
-        this.nay = nay;
+    public void setMay(int may) {
+        this.may = may;
     }
 
     public int getJun() {
