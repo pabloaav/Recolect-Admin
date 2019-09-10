@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_gestionarEcoPunto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/color2"
     tools:context=".fragmentos.GestionarEcopuntoFragment">
 
@@ -123,7 +123,7 @@
             android:layout_width="60mm"
             android:layout_height="55sp"
             android:layout_gravity="center"
-            android:layout_marginTop="150sp"
+            android:layout_marginTop="100sp"
             android:background="@drawable/stylo_boton_pressed"
             android:drawableLeft="@drawable/ic_confirmar"
             android:fontFamily="@font/roboto_bold_italic"

@@ -191,8 +191,8 @@ public class MainActivity extends AppCompatActivity
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                 if (currentUser != null) {
                     View vista = findViewById(R.id.drawer_layout);
-                    Snackbar.make(vista, "Bienvenido Administrador: " + currentUser.getEmail(), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+//                    Snackbar.make(vista, "Bienvenido Administrador: " + currentUser.getEmail(), Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
                 } else {
                     Toast.makeText(MainActivity.this, "No hay usuario", Toast.LENGTH_SHORT).show();
                 }
