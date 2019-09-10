@@ -89,14 +89,14 @@ public class GestionarEcopuntoFragment extends Fragment {
         //Escuchar click del boton
         btn_cargarEcoPunto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                cargarEcoPunto();
+                preCargaEcoPunto();
             }
         });
         return vista;
     }
 
 
-    public void cargarEcoPunto() {
+    public void preCargaEcoPunto() {
 //        Obtenemos el string de cada campo
         String campoNombre = nombre.getText().toString().trim();
         String campoDescripcion = descripcion.getText().toString().trim();

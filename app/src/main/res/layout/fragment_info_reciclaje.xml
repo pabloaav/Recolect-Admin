@@ -28,16 +28,12 @@
         android:textColorHint="@color/colorBotonBlanco"
         android:textSize="20sp"/>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/linearMainActivity"
         android:layout_marginTop="50dp">
-
-
-
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_nombre_web"
@@ -63,7 +59,6 @@
                 android:textStyle="bold" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_contenido"
@@ -112,13 +107,12 @@
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <Button
             android:id="@+id/bt_subir_web"
             android:layout_width="60mm"
             android:layout_height="55sp"
             android:layout_gravity="center"
-            android:layout_marginTop="150sp"
+            android:layout_marginTop="100sp"
             android:background="@drawable/stylo_boton_pressed"
             android:drawableLeft="@drawable/ic_confirmar"
             android:fontFamily="@font/roboto_bold_italic"
