@@ -73,9 +73,19 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
 
-        inicializarFirebase();
+        //Referencias a la base de datos Firebase
+        dbRecolectar = FirebaseDatabase.getInstance();
+        dbRecolectarRoot = dbRecolectar.getReference();
 
-        doLoginWhitEmailPassword("administrador@gmail.com", "admin2019");
+        //Creamos objeto Estadisticas
+        estadisticas = new Estadisticas(dbRecolectarRoot);
+
+        //inicializamos el objeto firebaseAuth
+        firebaseAuth = FirebaseAuth.getInstance();
+        //Mostramos el usuario en el SnackBAr
+        if (firebaseAuth != null) {
+            Snackbar.make(drawer, "Bienvenido: " + firebaseAuth.getCurrentUser().getEmail(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }
 
         actualizarEstadisticas();
     }
@@ -145,7 +155,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.cerrar_sesion) {
             //cerrar sesion
             AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
-            dialogo1.setTitle("Cerrar Sesión ?");
+            dialogo1.setTitle("   Cerrar Sesión");
             dialogo1.setMessage("Estás seguro de que quieres cerrar la sesión ?");
             dialogo1.setCancelable(false);
             dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
@@ -181,55 +191,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Check if user is signed in (non-null) and update UI accordingly.
-                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                if (currentUser != null) {
-                    View vista = findViewById(R.id.drawer_layout);
-//                    Snackbar.make(vista, "Bienvenido Administrador: " + currentUser.getEmail(), Snackbar.LENGTH_LONG)
-//                            .setAction("Action", null).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "No hay usuario", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-        }, 2000);
-    }//Fin de onStart()
-
-    private void inicializarFirebase() {
-        FirebaseApp.initializeApp(this);
-        //inicializamos el objeto firebaseAuth
-        firebaseAuth = FirebaseAuth.getInstance();
-        dbRecolectar = FirebaseDatabase.getInstance();
-        dbRecolectarRoot = dbRecolectar.getReference();
-        estadisticas = new Estadisticas(dbRecolectarRoot);
-    }
-
-    public void doLoginWhitEmailPassword(String email, String password) {
-
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-
-                        } else {
-                            Toast.makeText(MainActivity.this, "Falló la autenticación. Verifique los datos",
-                                    Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-                });
-
-
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
 
@@ -257,6 +218,7 @@ public class MainActivity extends AppCompatActivity
         //Call signOut()
         firebaseAuth.signOut();
     }
+
     //endregion
 
 }

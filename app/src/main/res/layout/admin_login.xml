@@ -15,6 +15,7 @@
         android:layout_marginTop="50dp">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_correoLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="80sp"
@@ -33,11 +34,11 @@
                 android:fontFamily="@font/roboto_bold_italic"
                 android:hint="@string/txt_correoLogin"
                 android:inputType="textPersonName"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorBotonBlanco"
                 android:textColorHighlight="@color/colorBotonBlanco"
                 android:textColorHint="@color/colorFondoBlanco"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,6 +63,7 @@
                 android:hint="@string/txt_contrasena"
                 android:inputType="textPassword"
                 android:fontFamily="@font/roboto_bold_italic"
+                android:textColor="@color/colorBotonBlanco"
                 android:textColorHint="@color/colorFondoBlanco"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -80,6 +82,7 @@
             android:fontFamily="@font/roboto_bold_italic"
             android:hint="@string/bt_loguear"
             android:minWidth="88dip"
+            android:onClick="onClick"
             android:textColor="@color/colorFondoBlanco"
             android:textColorHighlight="@color/colorAccent"
             android:textColorHint="@color/colorFondoBlanco"
@@ -96,6 +99,7 @@
             android:drawableLeft="@drawable/ic_crear_cuenta"
             android:fontFamily="@font/roboto_bold_italic"
             android:hint="@string/bt_registrarse"
+            android:onClick="onClick"
             android:textColor="@color/colorFondoBlanco"
             android:textColorHighlight="@color/colorAccent"
             android:textColorHint="@color/colorFondoBlanco"
@@ -112,6 +116,7 @@
             android:drawableLeft="@drawable/ic_log_google"
             android:fontFamily="@font/roboto_bold_italic"
             android:hint="@string/bt_log_google"
+            android:onClick="onClick"
             android:textColor="@color/colorFondoBlanco"
             android:textColorHint="@color/colorFondoBlanco"
             android:textSize="18sp"
