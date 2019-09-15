@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity_acerca_de"></activity>
+        <activity android:name=".Acerca_de"></activity>
         <activity
             android:name=".LoginAdmin"
             android:theme="@style/AppTheme.NoActionBar">
