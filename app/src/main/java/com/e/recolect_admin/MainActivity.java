@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity
         MenuItem itemBuscar = menu.findItem(R.id.buscador);
         SearchView searchView = (SearchView) itemBuscar.getActionView();
         searchView.setOnQueryTextListener(this);
-
         itemBuscar.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
