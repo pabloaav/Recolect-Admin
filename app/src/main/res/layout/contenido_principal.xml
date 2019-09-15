@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold_italic"
         android:hint="@string/tv_bienvenida"
-        android:textColorHint="@color/common_google_signin_btn_text_dark_default"
+        android:textColorHint="@color/colorFondoBlanco"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
