@@ -3,6 +3,7 @@ package com.e.recolect_admin;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -30,7 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ReporteUsuarioFragment.OnFragmentInteractionListener, GestionarIncidenciaFragment.OnFragmentInteractionListener, GestionarEcopuntoFragment.OnFragmentInteractionListener, ReporteIncidenciaFragment.OnFragmentInteractionListener, InfoReciclajeFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ReporteUsuarioFragment.OnFragmentInteractionListener, GestionarIncidenciaFragment.OnFragmentInteractionListener, GestionarEcopuntoFragment.OnFragmentInteractionListener, ReporteIncidenciaFragment.OnFragmentInteractionListener, InfoReciclajeFragment.OnFragmentInteractionListener, SearchView.OnQueryTextListener {
 
     //region Atributos
     private FirebaseAuth firebaseAuth;
@@ -100,6 +102,27 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        MenuItem itemBuscar = menu.findItem(R.id.buscador);
+        SearchView searchView = (SearchView) itemBuscar.getActionView();
+        searchView.setOnQueryTextListener(this);
+        searchView.setQueryHint("Buscar usuario");
+        itemBuscar.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                Fragment fragmento = getSupportFragmentManager().findFragmentByTag("GestionarIncidenciaFragment");
+                if (fragmento != null && fragmento.isVisible()) {
+                    GestionarIncidenciaFragment gestionar = (GestionarIncidenciaFragment) fragmento;
+                    gestionar.llenarConIncidencias();
+                }
+                return true;
+            }
+        });
+
         return true;
     }
 
@@ -112,15 +135,11 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent acercaDe = new Intent(MainActivity.this, Acerca_de.class);
-            startActivity(acercaDe);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -130,23 +149,28 @@ public class MainActivity extends AppCompatActivity
         // Variable tipo Fragment para hacer visible el fragmento que elige el usuario
         Fragment miFragment = null;
         boolean fragmentSeleccionado = false;
+        String tag = "";
 
         if (id == R.id.gestionar_incidencias) {
             //Se reemplaza contenido principal por fragmento gestionar incidencias
             miFragment = new GestionarIncidenciaFragment();
             fragmentSeleccionado = true;
+            tag = "GestionarIncidenciaFragment";
         } else if (id == R.id.gestionar_ecopuntos) {
             //Se reemplaza contenido principal por fragmento gestionar ecopuntos
             miFragment = new GestionarEcopuntoFragment();
             fragmentSeleccionado = true;
+            tag = "GestionarEcopuntoFragment";
         } else if (id == R.id.reporte_incidencias) {
             //Se reemplaza contenido principal por fragmento reporte incidencias
             miFragment = new ReporteIncidenciaFragment();
             fragmentSeleccionado = true;
+            tag = "ReporteIncidenciaFragment";
         } else if (id == R.id.reporte_usuarios) {
             //Se reemplaza contenido principal por fragmento reporte usuarios
             miFragment = new ReporteUsuarioFragment();
             fragmentSeleccionado = true;
+            tag = "ReporteUsuarioFragment";
         } else if (id == R.id.cerrar_sesion) {
             //cerrar sesion
             AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
@@ -168,11 +192,12 @@ public class MainActivity extends AppCompatActivity
         } else {//Se reemplaza contenido principal por fragmento info reciclaje
             miFragment = new InfoReciclajeFragment();
             fragmentSeleccionado = true;
+            tag = "InfoReciclajeFragment";
         }
 
         //Se hace un cambio (replace) del contenido principal por un fragmento seleccionado
         if (fragmentSeleccionado) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.contenido_principal, miFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.contenido_principal, miFragment, tag).commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -214,6 +239,20 @@ public class MainActivity extends AppCompatActivity
         firebaseAuth.signOut();
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Fragment fragmento = getSupportFragmentManager().findFragmentByTag("GestionarIncidenciaFragment");
+        if (fragmento != null && fragmento.isVisible()) {
+            GestionarIncidenciaFragment gestionar = (GestionarIncidenciaFragment) fragmento;
+            gestionar.llenarConTextoBuscar(newText.toLowerCase());
+        }
+        return false;
+    }
 
     //endregion
 
