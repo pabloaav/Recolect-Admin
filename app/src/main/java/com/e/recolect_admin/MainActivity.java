@@ -135,6 +135,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent acercaDe = new Intent(MainActivity.this, Acerca_de.class);
+            startActivity(acercaDe);
             return true;
         }
 
