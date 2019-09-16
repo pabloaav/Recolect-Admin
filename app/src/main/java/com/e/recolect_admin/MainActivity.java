@@ -3,6 +3,7 @@ package com.e.recolect_admin;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity
         MenuItem itemBuscar = menu.findItem(R.id.buscador);
         SearchView searchView = (SearchView) itemBuscar.getActionView();
         searchView.setOnQueryTextListener(this);
+        searchView.setQueryHint("Buscar usuario");
         itemBuscar.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
@@ -247,7 +249,7 @@ public class MainActivity extends AppCompatActivity
         Fragment fragmento = getSupportFragmentManager().findFragmentByTag("GestionarIncidenciaFragment");
         if (fragmento != null && fragmento.isVisible()) {
             GestionarIncidenciaFragment gestionar = (GestionarIncidenciaFragment) fragmento;
-            gestionar.llenarConTextoBuscar(newText);
+            gestionar.llenarConTextoBuscar(newText.toLowerCase());
         }
         return false;
     }
