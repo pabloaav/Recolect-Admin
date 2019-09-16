@@ -53,6 +53,11 @@
     <string name="tv_direccion_url">Dirección URL:</string>
     <string name="bt_agregar_web">Añadir Sitio Web</string>
 
+    <!--Acerca de-->
+    <string name="tv_titulo_app">Recolect-Admin</string>
+    <string name="tv_version">Versión 1.0</string>
+    <string name="tv_anio">2019</string>
+
 
     <string-array name="opciones">
         <item>Buscar incidencias por:</item>
