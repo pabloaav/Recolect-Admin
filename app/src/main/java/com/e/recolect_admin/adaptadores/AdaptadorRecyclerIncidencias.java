@@ -2,7 +2,10 @@ package com.e.recolect_admin.adaptadores;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +71,9 @@ public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<Adaptador
         //Quitamos los segundos a la fecha y hora de la incidencia
         String fechaSinSegundos = quitarSegundos(incidencia.getFecha());
         incidenciasViewHolder.fecha.setText(fechaSinSegundos);
-        incidenciasViewHolder.descripcion.setText(incidencia.getDescripcion());
+        //Agregamos la palabra "Descripción: " a la descripcion en tiempo de ejecucion
+        String descripcion = "Descripción:  " + incidencia.getDescripcion();
+        incidenciasViewHolder.descripcion.setText(descripcion);
 //        incidenciasViewHolder.direccion.setText(incidencia.getDireccion());
         //Quitamos el state (Estado=Provincia) de la cadena de ubicacion
         String cadenaSinProvincia = quitarProvincia(incidencia.getCadenaUbicacion());
@@ -191,7 +196,7 @@ public class AdaptadorRecyclerIncidencias extends RecyclerView.Adapter<Adaptador
 //            itemView.setOnLongClickListener(new View.OnLongClickListener() {
 //                @Override
 //                public boolean onLongClick(View v) {
-//                    Toast.makeText(mContext, "Presionando el boton", Toast.LENGTH_SHORT).show();
+//
 //                    return false;
 //                }
 //            });

@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color2"
+    android:background="@color/colorFondoBlanco"
     tools:context=".fragmentos.ReporteUsuarioFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/tv_frag_reportes"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fontFamily="@font/roboto_bold_italic"
-        android:gravity="center|top"
-        android:hint="@string/menu_reporte_usu"
-        android:textColorHint="@color/colorBotonBlanco"
-        android:textSize="24sp" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/usuarios_piechart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp" />
+<!--        <com.github.mikephil.charting.charts.PieChart-->
+<!--            android:id="@+id/usuarios_piechart2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:visibility="invisible"/>-->
+        <TextView
+            android:id="@+id/tv_cargando_datos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold_italic"
+            android:hint="Obteniendo los datos de la base de datos..."
+            android:textColorHint="@color/colorBotonVerde"
+            android:textSize="14sp"
+            android:background="@color/colorFondoBlanco"
+            android:layout_gravity="center"
+             />
+    </FrameLayout>
+</LinearLayout>

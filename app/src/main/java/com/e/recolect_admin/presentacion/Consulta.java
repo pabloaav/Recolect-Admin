@@ -1,5 +1,9 @@
 package com.e.recolect_admin.presentacion;
 
+import com.github.mikephil.charting.data.PieEntry;
+
+import java.util.ArrayList;
+
 public interface Consulta {
 
     interface Incidencia {
@@ -12,6 +16,10 @@ public interface Consulta {
         void cantidadTerminado();
 
         void cantidadTotal();
+
+        void cantidadMesTipoPrimerSemestre();
+
+        void cantidadMesTipoSegundoSemestre();
     }
 
     interface Usuario {
@@ -24,5 +32,7 @@ public interface Consulta {
         void cantidadUsos();
 
         void cantidadLogins();
+
+        void estadisticasUsuario(ArrayList<PieEntry> entradasPie, int[] cantCategorias, String[] nombreCategorias);
     }
 }

@@ -3,12 +3,126 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragmentos.InfoReciclajeFragment">
+    tools:context=".fragmentos.InfoReciclajeFragment"
+    android:background="@color/color2">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tv_titulo_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:fontFamily="@font/roboto_bold_italic"
+        android:gravity="center|top"
+        android:hint="@string/titulo_admin_info"
+        android:textColorHint="@color/colorBotonBlanco"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:id="@+id/tv_ingreso_datos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:hint="@string/tv_ingreso_datos"
+        android:fontFamily="@font/roboto_bold_italic"
+        android:textColorHint="@color/colorBotonBlanco"
+        android:textSize="20sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/linearMainActivity"
+        android:layout_marginTop="50dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_nombre_web"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50sp"
+            android:textColorHint="@color/colorFondoBlanco"
+            android:textColor="@color/colorFondoBlanco">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_nombre_web"
+                android:layout_width="60mm"
+                android:layout_height="55sp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:ems="10"
+                android:fontFamily="@font/roboto_bold_italic"
+                android:hint="@string/tv_nombre_web"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorFondoBlanco"
+                android:textColorHint="@color/colorFondoBlanco"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_contenido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:textColor="@color/colorFondoBlanco"
+            android:textColorHint="@color/colorFondoBlanco">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_contenido"
+                android:layout_width="60mm"
+                android:layout_height="55sp"
+                android:layout_gravity="center"
+                android:ems="10"
+                android:fontFamily="@font/roboto_bold_italic"
+                android:hint="@string/tv_contenido"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorFondoBlanco"
+                android:textColorHint="@color/colorFondoBlanco"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:textColor="@color/colorFondoBlanco"
+            android:textColorHint="@color/colorFondoBlanco">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_url"
+                android:layout_width="60mm"
+                android:layout_height="55sp"
+                android:layout_gravity="center"
+                android:ems="10"
+                android:fontFamily="@font/roboto_bold_italic"
+                android:hint="@string/tv_direccion_url"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorFondoBlanco"
+                android:textColorHint="@color/colorFondoBlanco"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/bt_subir_web"
+            android:layout_width="60mm"
+            android:layout_height="55sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="100sp"
+            android:background="@drawable/stylo_boton_pressed"
+            android:drawableLeft="@drawable/ic_confirmar"
+            android:fontFamily="@font/roboto_bold_italic"
+            android:hint="@string/bt_agregar_web"
+            android:textColor="@color/colorFondoBlanco"
+            android:textColorHighlight="@color/colorAccent"
+            android:textColorHint="@color/colorFondoBlanco"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
 
 </FrameLayout>

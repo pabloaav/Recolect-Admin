@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -53,11 +54,6 @@ public class GestionarIncidenciaFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
     //endregion
 
@@ -80,8 +76,7 @@ public class GestionarIncidenciaFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
         // Objetos de Firebase
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -142,6 +137,49 @@ public class GestionarIncidenciaFragment extends Fragment {
         setOpcionesSpinner();
 
         return vista;
+    }
+
+    public void llenarConTextoBuscar(final String newText) {
+        dbRefNodoIncidencias.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (!listaIncidenciaPojos.isEmpty()) {
+                        listaIncidenciaPojos.clear();
+                    }
+                    for (DataSnapshot unUsuario : dataSnapshot.getChildren()) {
+                        for (DataSnapshot unaIncidencia : unUsuario.getChildren()) {
+                            IncidenciaPojo value = unaIncidencia.getValue(IncidenciaPojo.class);
+                            if (value.getUsuario().contains(newText)) {
+                                listaIncidenciaPojos.add(value);
+                            }
+                        }
+                    }
+
+                }
+                //Creamos el adaptador de Incidencias
+                adapter = new AdaptadorRecyclerIncidencias(listaIncidenciaPojos, R.layout.cv_admin_incidencia, getActivity());
+
+                //Le decimos al adaptador que escuche y haga algo cuando se hace click
+                adapter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            IncidenciaPojo incidenciaPojo = listaIncidenciaPojos.get(rvIncidencias.getChildAdapterPosition(view));
+                            mostrarDialogoCambio(incidenciaPojo);
+                        }
+                    }
+                });
+
+                //Seteamos el adaptador al recycler
+                rvIncidencias.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     /**
@@ -329,7 +367,7 @@ public class GestionarIncidenciaFragment extends Fragment {
 
     }
 
-    private void llenarConIncidencias() {
+    public void llenarConIncidencias() {
 
         dbRefNodoIncidencias.addValueEventListener(new ValueEventListener() {
             @Override

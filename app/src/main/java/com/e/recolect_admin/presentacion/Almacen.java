@@ -5,12 +5,13 @@ import com.e.recolect_admin.modelo.UsuarioPojo;
 import java.util.ArrayList;
 
 public interface Almacen {
-    interface Usuarios{
+    interface Usuarios {
         void guardarRegistrados(int size);
 
         void guardarIncPorUsuario(ArrayList<UsuarioPojo> listaUsuarioPojos);
     }
-    interface Incidencias{
+
+    interface Incidencias {
         void guardarMes(int[] cantidadIncMes);
 
         void guardarTipo(int[] cantidadIncTipo);
@@ -18,5 +19,7 @@ public interface Almacen {
         void guardarEstado(int[] cantidadIncEstado);
 
         void guardarCantidadTotal(int cantidad);
+
+        void guardarMesTipo(int[][] matrizMesYTipo);
     }
 }

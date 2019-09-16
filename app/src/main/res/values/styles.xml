@@ -23,7 +23,9 @@
 
 
     <style name="NavigationView">
+        <item name="android:textColorPrimary">@color/colorFondoBlanco</item>
         <item name="android:textColorSecondary">@color/colorFondoBlanco</item>
+        <item name="android:textColor">@color/colorFondoBlanco</item>
     </style>
 
 </resources>

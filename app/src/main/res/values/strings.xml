@@ -15,7 +15,7 @@
     <string name="nav_header_title">Pablo Aguirre</string>
     <string name="nav_header_subtitle">Adminstrador en Recolect-Admin</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Opciones</string>
+    <string name="action_settings">Acerca de Recolect-Admin</string>
 
     <!--Menu Navigation Drawer-->
     <string name="menu_gestionar_inc">Administrar Incidencias</string>
@@ -25,24 +25,35 @@
     <string name="titulo_reportes">Reportes</string>
     <string name="menu_reporte_usu">Reportes de Usuarios </string>
     <string name="menu_reporte_inc">Reportes de Incidencias</string>
+    <string name="cerrar_sesion">Cerrar Sesión</string>
 
     <string name="tv_bienvenida">Presione Menú o Deslice Para Empezar</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="titulo_reporte_usuarios">FRagmento de Reportes de Usuario</string>
+    <string name="titulo_reporte_usuarios">Fragmento de Reportes de Usuario</string>
     <string name="titulo_reporte_incidencia">Fragmento Reportes de Incidencias</string>
     <string name="titulo_fragmento_incidencias">Administrar Incidencias</string>
-    <string name="titulo_reporte_ecopuntos">Administrar Ecopuntos Fragment</string>
+    <string name="titulo_reporte_ecopuntos">Administrar Ecopuntos</string>
+    <string name="titulo_admin_info">Administrar Info Útil</string>
 
-    <string name="tv_ingrese_datos">Ingrese los Datos del Eco Punto:</string>
 
     <!--Administrar Eco Puntos-->
+    <string name="tv_ingrese_datos">Ingrese los Datos del Eco Punto:</string>
     <string name="tv_nombre_ecop">Nombre Eco Punto:</string>
     <string name="tv_ubicacion_ecop">Ubicación Eco Punto:</string>
     <string name="tv_descripcion_ecop">Descripción Eco Punto:</string>
     <string name="bt_agregar_ecop">Añadir Eco Punto</string>
+
+    <!--Administrar Info Útil-->
+    <string name="tv_ingreso_datos">Ingrese los Datos del Sitio Web:</string>
+    <string name="tv_nombre_web">Nombre de la Web:</string>
+    <string name="tv_contenido">Contenido:</string>
+    <string name="tv_direccion_url">Dirección URL:</string>
+    <string name="bt_agregar_web">Añadir Sitio Web</string>
+
+
     <string-array name="opciones">
         <item>Buscar incidencias por:</item>
         <item>Tipo Domiciliario</item>

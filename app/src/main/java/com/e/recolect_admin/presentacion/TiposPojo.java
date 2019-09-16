@@ -1,6 +1,6 @@
 package com.e.recolect_admin.presentacion;
 
-class TiposPojo {
+public class TiposPojo {
     int Domiciliario, Vidrio, Chatarra, Industrial;
 
     public TiposPojo() {

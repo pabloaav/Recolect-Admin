@@ -20,13 +20,9 @@
         android:layout_gravity="start"
         android:backgroundTint="@color/color2"
         android:fitsSystemWindows="true"
-        android:scrollbarThumbHorizontal="@color/colorFondoBlanco"
-        android:scrollbarThumbVertical="@color/colorFondoBlanco"
+        android:theme="@style/NavigationView"
         app:headerLayout="@layout/nav_header_main"
-        app:insetForeground="#000000"
         app:itemTextColor="@color/colorFondoBlanco"
-        app:itemIconTint="@color/colorFondoBlanco"
-        app:menu="@menu/activity_main_drawer"
-        android:theme="@style/NavigationView"/>
+        app:menu="@menu/activity_main_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
