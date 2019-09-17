@@ -3,7 +3,6 @@
     <!--Activity Inicio de Sesión-->
     <string name="txt_correoLogin">INGRESE SU CORREO ELECTRONICO:</string>
     <string name="txt_contrasena">INGRESE SU CONTRASEÑA:</string>
-    <string name="tv_olvidoPass">HAS OLVIDADO TU CONTRASEÑA?</string>
     <string name="bt_loguear">INICIAR SESION</string>
     <string name="bt_registrarse">CREAR UNA CUENTA</string>
     <string name="bt_log_google">INICIAR CON GOOGLE</string>
@@ -25,17 +24,12 @@
     <string name="titulo_reportes">Reportes</string>
     <string name="menu_reporte_usu">Reportes de Usuarios </string>
     <string name="menu_reporte_inc">Reportes de Incidencias</string>
-    <string name="cerrar_sesion">Cerrar Sesión</string>
 
     <string name="tv_bienvenida">Presione Menú o Deslice Para Empezar</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="titulo_reporte_usuarios">Fragmento de Reportes de Usuario</string>
-    <string name="titulo_reporte_incidencia">Fragmento Reportes de Incidencias</string>
     <string name="titulo_fragmento_incidencias">Administrar Incidencias</string>
-    <string name="titulo_reporte_ecopuntos">Administrar Ecopuntos</string>
     <string name="titulo_admin_info">Administrar Info Útil</string>
 
 

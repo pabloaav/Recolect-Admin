@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#000000</color>
-    <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#1e453e</color>
     <color name="colorBotonBlanco">#FFFFFF</color>
     <color name="colorBotonVerde">#388E3C</color>
-    <color name="colorFondoMain">#0d1e18</color>
-    <color name="colorFondoAppBar">#0d1e18</color>
-    <color name="colorFondoDark">#3a3d33</color>
-    <color name="colorFondoVerde">#3e3053</color>
     <color name="colorFondoNegro">#000000</color>
     <color name="colorFondoBlanco">#FFFFFF</color>
-    <color name="colorFondoSplash">#c5c5c5</color>
 
     <color name="color1">#2c4c3b</color>
     <color name="color2">#306844</color>
     <color name="color3">#1e453e</color>
-    <color name="colorPruebaFondoFarg">#009867</color>
-    <color name="vidrio">#2B8011</color>
-    <color name="industrial">#8f8f8f</color>
-    <color name="chatarra">#c23514</color>
-    <color name="domiciliario">#4079b2</color>
 
 </resources>

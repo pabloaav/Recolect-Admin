@@ -101,11 +101,11 @@ public class InfoReciclajeFragment extends Fragment {
         String urlDeLaWeb = "http://www.inforeciclaje.com/reciclaje-vidrio.php";*/
 
         if (nombreDeLaWeb.isEmpty()) {
-            til_nombreWeb.setError("Por Favor, ingrese el nombre del Eco Punto");
+            til_nombreWeb.setError("Por Favor, ingrese el nombre de la Web");
         } else if (contenidoDeLaWeb.isEmpty()) {
-            til_contenido.setError("Por Favor, ingrese una descripcion del Eco Punto");
+            til_contenido.setError("Por Favor, ingrese el contenido de la Web");
         } else if (urlDeLaWeb.isEmpty()) {
-            til_url.setError("Por Favor, ingrese la direccion: calle y numero ");
+            til_url.setError("Por Favor, ingrese la URL de la Web ");
         } else {
             til_nombreWeb.setError(null);
             til_contenido.setError(null);
