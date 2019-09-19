@@ -11,6 +11,7 @@
         android:id="@+id/buscador"
         android:icon="@android:drawable/ic_menu_search"
         android:title="buscar"
+        android:visible="false"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
 </menu>

@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ActionMenuView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseDatabase dbRecolectar;
     private DatabaseReference dbRecolectarRoot;
     Estadisticas estadisticas;
+    MenuItem itemBuscar;
     //endregion
 
     //region Metodos
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem itemBuscar = menu.findItem(R.id.buscador);
+        itemBuscar = menu.findItem(R.id.buscador);
         SearchView searchView = (SearchView) itemBuscar.getActionView();
         searchView.setOnQueryTextListener(this);
         searchView.setQueryHint("Buscar usuario");
@@ -158,6 +161,7 @@ public class MainActivity extends AppCompatActivity
             miFragment = new GestionarIncidenciaFragment();
             fragmentSeleccionado = true;
             tag = "GestionarIncidenciaFragment";
+
         } else if (id == R.id.gestionar_ecopuntos) {
             //Se reemplaza contenido principal por fragmento gestionar ecopuntos
             miFragment = new GestionarEcopuntoFragment();
@@ -200,6 +204,15 @@ public class MainActivity extends AppCompatActivity
         //Se hace un cambio (replace) del contenido principal por un fragmento seleccionado
         if (fragmentSeleccionado) {
             getSupportFragmentManager().beginTransaction().replace(R.id.contenido_principal, miFragment, tag).commit();
+            try {
+                if (tag.equals("GestionarIncidenciaFragment")) {
+                    itemBuscar.setVisible(true);
+                } else {
+                    itemBuscar.setVisible(false);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -254,6 +267,21 @@ public class MainActivity extends AppCompatActivity
             gestionar.llenarConTextoBuscar(newText.toLowerCase());
         }
         return false;
+    }
+
+    @Override
+    public void onAttachFragment(@NonNull Fragment fragment) {
+        super.onAttachFragment(fragment);
+
+//        try {
+//            if (fragment.getTag().equals("GestionarIncidenciaFragment")) {
+//                itemBuscar.setVisible(true);
+//            } else {
+//                itemBuscar.setVisible(false);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     //endregion
