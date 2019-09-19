@@ -123,6 +123,7 @@ public class GestionarIncidenciaFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_gestionar_incidencia, container, false);
+        getActivity().setTitle("Incidencias");
         //Tomar el recycler view del layout por medio de su id
         rvIncidencias = vista.findViewById(R.id.rv_gestion_incidencias);
         //Crear la lista de incidencias delcarada en Atributos

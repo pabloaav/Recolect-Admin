@@ -22,6 +22,7 @@
         app:srcCompat="@drawable/prueba_admin_base_de_datos" />
 
     <TextView
+        android:id="@+id/txt_nombre_admin"
         android:layout_width="379dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold_italic"

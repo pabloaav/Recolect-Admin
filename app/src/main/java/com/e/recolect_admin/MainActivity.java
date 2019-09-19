@@ -8,7 +8,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ActionMenuView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -81,6 +83,13 @@ public class MainActivity extends AppCompatActivity
         //Mostramos el usuario en el SnackBAr
         if (firebaseAuth != null) {
             Snackbar.make(drawer, "Bienvenido: " + firebaseAuth.getCurrentUser().getEmail(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }
+        //Colocamos el nombre del administrador que inicia sesion
+        View headerView = navigationView.getHeaderView(0);
+        TextView nombreAdministrador = headerView.findViewById(R.id.txt_nombre_admin);
+
+        if (nombreAdministrador != null) {
+            nombreAdministrador.setHint(firebaseAuth.getCurrentUser().getEmail());
         }
 
         actualizarEstadisticas();

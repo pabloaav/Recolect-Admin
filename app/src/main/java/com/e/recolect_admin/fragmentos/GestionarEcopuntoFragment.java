@@ -78,6 +78,7 @@ public class GestionarEcopuntoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vista = inflater.inflate(R.layout.fragment_gestionar_ecopunto, container, false);
+        getActivity().setTitle("Eco Puntos");
         //Links de recursos visuales
         nombre = vista.findViewById(R.id.txt_nombre_ecop);
         descripcion = vista.findViewById(R.id.txt_descripcion_ecop);

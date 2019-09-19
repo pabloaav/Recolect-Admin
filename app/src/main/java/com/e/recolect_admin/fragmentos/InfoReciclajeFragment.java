@@ -73,6 +73,7 @@ public class InfoReciclajeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_info_reciclaje, container, false);
+        getActivity().setTitle("Reciclaje");
         //Link de recursos
         til_contenido = vista.findViewById(R.id.til_contenido);
         til_url = vista.findViewById(R.id.til_url);
