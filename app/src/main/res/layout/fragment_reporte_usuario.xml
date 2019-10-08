@@ -4,34 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorFondoBlanco"
-    tools:context=".fragmentos.ReporteUsuarioFragment">
+    tools:context=".fragmentos.ReporteUsuarioFragment"
+    android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/usuarios_piechart"
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/usuarios_barchart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp" />
-<!--        <com.github.mikephil.charting.charts.PieChart-->
-<!--            android:id="@+id/usuarios_piechart2"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="10dp"-->
-<!--            android:layout_gravity="bottom"-->
-<!--            android:visibility="invisible"/>-->
-        <TextView
-            android:id="@+id/tv_cargando_datos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_bold_italic"
-            android:hint="Obteniendo los datos de la base de datos..."
-            android:textColorHint="@color/colorBotonVerde"
-            android:textSize="14sp"
-            android:background="@color/colorFondoBlanco"
-            android:layout_gravity="center"
-             />
-    </FrameLayout>
+
 </LinearLayout>

@@ -18,20 +18,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.e.recolect_admin.MyValueFormatter;
 import com.e.recolect_admin.R;
 import com.e.recolect_admin.presentacion.EstadisticasUsuarioPojo;
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.formatter.StackedValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
@@ -66,13 +75,11 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
     //endregion
 
     //region Atributos
-    PieChart chart, chart2;
-    private Typeface tfRegular;
-    private Typeface tfLight;
-    private String[] nombreCategorias = new String[]{"Logins", "Registrados", "Registros", "Usos"};
+    BarChart chart;
+    private String[] nombreCategorias = new String[]{"Accesos", "Cuentas Creadas", "Usuarios Activos", "Consultas"};
     private FirebaseDatabase dbRecolectar;
     private DatabaseReference dbRecolectarRoot;
-    TextView cargando;
+
     //endregion
 
     //region Metodos por default
@@ -148,10 +155,6 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
 
         dbRecolectar = FirebaseDatabase.getInstance();
         dbRecolectarRoot = dbRecolectar.getReference();
-
-        tfRegular = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
-        tfLight = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
-
     }
 
     @Override
@@ -159,64 +162,34 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_reporte_usuario, container, false);
-        //Link del recurso barChart de Incidencias
-        chart = vista.findViewById(R.id.usuarios_piechart);
-//        chart2 = vista.findViewById(R.id.usuarios_piechart2);
-        cargando = vista.findViewById(R.id.tv_cargando_datos);
+        //Link del recurso barChart de Usuarios
+        chart = vista.findViewById(R.id.usuarios_barchart);
+
         getActivity().setTitle("Reporte de Usuarios");
-
-        chart.setUsePercentValues(true);
-        chart.getDescription().setEnabled(false);
-        chart.setExtraOffsets(5, 10, 5, 5);
-
-        chart.setDragDecelerationFrictionCoef(0.95f);
-
-        chart.setCenterTextTypeface(tfLight);
-        chart.setCenterText(generarCirucloBlanco());
-
-        chart.setDrawHoleEnabled(true);
-        chart.setHoleColor(Color.WHITE);
-
-        chart.setTransparentCircleColor(Color.GREEN);
-        chart.setTransparentCircleAlpha(110);
-
-        chart.setHoleRadius(58f);
-        chart.setTransparentCircleRadius(61f);
-
-        chart.setDrawCenterText(true);
-
-        chart.setRotationAngle(0);
-        // enable rotation of the chart by touch
-        chart.setRotationEnabled(true);
-        chart.setHighlightPerTapEnabled(true);
-
-        // chart.setUnit(" €");
-        // chart.setDrawUnitsInChart(true);
-
-        // add a selection listener
+        chart.setDrawBarShadow(false);
+        chart.setDrawValueAboveBar(true);
         chart.setOnChartValueSelectedListener(this);
+        chart.getDescription().setEnabled(false);
+        chart.setMaxVisibleValueCount(60);
+        chart.setDragDecelerationFrictionCoef(0.95f);
+        chart.setPinchZoom(false);
+        chart.setDrawGridBackground(false);
 
-        // entry label styling
-        chart.setEntryLabelColor(Color.BLACK);
-        chart.setEntryLabelTypeface(tfRegular);
-        chart.setEntryLabelTextSize(13f);
-        chart.animateY(1400, Easing.EaseInOutQuad);
-        // chart.spin(2000, 0, 360);
+        // change the position of the y-labels
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        chart.getAxisRight().setEnabled(false);
+
+        chart.getAxisLeft().setDrawGridLines(false);
+
+        // add a nice and smooth animation
+        chart.animateY(1500, Easing.EaseInOutQuad);
 
         setEstadisticasUsuarios();
 
         return vista;
     }
 
-    private SpannableString generarCirucloBlanco() {
-
-        SpannableString s = new SpannableString("Recolect-Admin\nEstadisticas de Usuarios");
-        s.setSpan(new RelativeSizeSpan(1.7f), 0, 14, 0);
-        s.setSpan(new StyleSpan(Typeface.NORMAL), 14, s.length(), 0);
-        s.setSpan(new ForegroundColorSpan(Color.GRAY), 14, s.length(), 0);
-        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), 0, s.length(), 0);
-        return s;
-    }
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
@@ -255,9 +228,13 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
 
     private void setData(int[] cantCategorias) {
 
-        ArrayList<PieEntry> entradasPie = new ArrayList<>();
+        XAxis xLabels = chart.getXAxis();
+        xLabels.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xLabels.setGranularityEnabled(true);
+        xLabels.setValueFormatter(new IndexAxisValueFormatter());
+        ArrayList<BarEntry> entradasBar = new ArrayList<>();
         for (int i = 0; i < cantCategorias.length; i++) {
-            entradasPie.add(new PieEntry(cantCategorias[i], nombreCategorias[i]));
+            entradasBar.add(new BarEntry(i, cantCategorias[i]));
         }
 //        Legend l = chart.getLegend();
 //        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
@@ -269,15 +246,7 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
 //        l.setYOffset(0f);
 //        l.setTextSize(14f);
         Legend legend = chart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
-        legend.setDrawInside(false);
-        legend.setXEntrySpace(7f);
-        legend.setYEntrySpace(0f);
-        legend.setYOffset(0f);
-        legend.setTextSize(14f);
+
         ArrayList<Integer> colors = new ArrayList<>();
 
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
@@ -298,37 +267,43 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
         for (int i = 0; i < nombreCategorias.length; i++) {
             LegendEntry entry = new LegendEntry();
             entry.formColor = colors.get(i);
-            entry.label = nombreCategorias[i] + ":    " + cantCategorias[i];
+            entry.label = nombreCategorias[i];
             entries.add(entry);
         }
         legend.setCustom(entries);
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        legend.setDrawInside(false);
+        legend.setXEntrySpace(10f);
+        legend.setTextSize(10F);
+        legend.setFormSize(6f);
+        legend.setFormToTextSpace(2f);
+        BarDataSet set1;
 
-        PieDataSet dataSet = new PieDataSet(entradasPie, "");
+        if (chart.getData() != null &&
+                chart.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) chart.getData().getDataSetByIndex(0);
+            set1.setValues(entradasBar);
+            chart.getData().notifyDataChanged();
+            chart.notifyDataSetChanged();
+        } else {
+            set1 = new BarDataSet(entradasBar, "Data Set");
+            set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
+            set1.setDrawValues(true);
 
-        dataSet.setDrawIcons(false);
+            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+            dataSets.add(set1);
 
-        dataSet.setSliceSpace(3f);
-        dataSet.setIconsOffset(new MPPointF(0, 40));
-        dataSet.setSelectionShift(5f);
+            BarData data = new BarData(dataSets);
+            chart.setData(data);
+            data.setValueFormatter(new DefaultValueFormatter(0));
+            data.setValueTextColor(Color.BLACK);
+            data.setValueTextSize(14f);
 
-        // add a lot of colors
-
-        colors.add(ColorTemplate.getHoloBlue());
-
-        dataSet.setColors(colors);
-
-        //dataSet.setSelectionShift(0f);
-        cargando.setVisibility(View.INVISIBLE);
-        PieData data = new PieData(dataSet);
-        data.setValueFormatter(new PercentFormatter(chart));
-        data.setValueTextSize(14f);
-        data.setValueTextColor(Color.BLACK);
-        data.setValueTypeface(tfLight);
-        chart.setData(data);
-
-        // undo all highlights
-        chart.highlightValues(null);
-
+        }
+        chart.setFitBars(true);
         chart.invalidate();
 
     }
