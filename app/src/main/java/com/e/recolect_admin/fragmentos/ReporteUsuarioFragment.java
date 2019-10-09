@@ -194,11 +194,7 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        if(e.getX() == 0.0){
-            Toast.makeText(getActivity(), "Los accesos son tal cosa", Toast.LENGTH_SHORT).show();
-        }else if (h.getDataSetIndex() == 1){
-            Toast.makeText(getActivity(), "Las cuentas son tal cosa", Toast.LENGTH_SHORT).show();
-        }
+
     }
 
     @Override
