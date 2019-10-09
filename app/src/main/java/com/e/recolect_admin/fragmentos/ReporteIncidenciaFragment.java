@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.e.recolect_admin.ColoresBarras;
@@ -133,7 +134,6 @@ public class ReporteIncidenciaFragment extends Fragment implements OnChartValueS
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-
     }
 
     @Override

@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.e.recolect_admin.MyValueFormatter;
 import com.e.recolect_admin.R;
@@ -193,7 +194,11 @@ public class ReporteUsuarioFragment extends Fragment implements OnChartValueSele
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-
+        if(e.getX() == 0.0){
+            Toast.makeText(getActivity(), "Los accesos son tal cosa", Toast.LENGTH_SHORT).show();
+        }else if (h.getDataSetIndex() == 1){
+            Toast.makeText(getActivity(), "Las cuentas son tal cosa", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
